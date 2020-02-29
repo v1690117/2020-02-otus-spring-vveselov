@@ -5,9 +5,12 @@ import com.github.v1690117.app.poll.domain.Question;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,6 +19,7 @@ import java.util.stream.Stream;
 public class CsvResourceQuestionsFactory implements QuestionsFactory {
     private final String filename;
 
+    @SneakyThrows
     @Override
     public List<Question> questions() {
         return readLines()
@@ -25,8 +29,14 @@ public class CsvResourceQuestionsFactory implements QuestionsFactory {
 
     @SneakyThrows
     private Stream<String> readLines() {
-        File file = getFileFromResources();
-        return Files.lines(file.toPath());
+        List<String> lines = new LinkedList<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                this.getClass().getClassLoader().getResourceAsStream(filename), StandardCharsets.UTF_8));
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
+        }
+        return lines.stream();
     }
 
     private File getFileFromResources() {
