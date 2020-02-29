@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 @AllArgsConstructor
 public class SimplePoll implements Application {
@@ -21,12 +22,21 @@ public class SimplePoll implements Application {
     @Override
     public void run() {
         List<Question> questions = questionsFactory.questions();
+        greet();
         printRules();
         for (Question question : questions) {
             Answer answer = Answer.class.cast(io.readInputData(question));
             answers.add(answer);
         }
         printResults();
+    }
+
+    private void greet() {
+        System.out.println("What is your name?");
+        String firstName = new Scanner(System.in).next();
+        System.out.println("What is your last name?");
+        String lastName = new Scanner(System.in).next();
+        System.out.println(String.format("Hello, %s %s", firstName, lastName));
     }
 
     private void printRules() {
