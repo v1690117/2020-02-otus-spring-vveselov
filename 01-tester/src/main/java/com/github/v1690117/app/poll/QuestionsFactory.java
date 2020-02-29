@@ -20,7 +20,8 @@ public interface QuestionsFactory {
         @Override
         public List<Question> questions() {
             List<Question> list = new LinkedList<>();
-            list.add(new Question.FakeQuestion());
+            list.add(new Question.FakeQuestion(true));
+            list.add(new Question.FakeQuestion(false));
             return list;
         }
     }

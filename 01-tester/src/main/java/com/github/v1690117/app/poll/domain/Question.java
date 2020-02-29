@@ -1,5 +1,7 @@
 package com.github.v1690117.app.poll.domain;
 
+import lombok.AllArgsConstructor;
+
 /**
  * Question that could be asked and validated.
  */
@@ -17,7 +19,10 @@ public interface Question {
      */
     boolean validate(Answer givenAnswer);
 
+    @AllArgsConstructor
     class FakeQuestion implements Question {
+        private final boolean isCorrect;
+
         @Override
         public void ask() {
 
@@ -25,7 +30,7 @@ public interface Question {
 
         @Override
         public boolean validate(Answer givenAnswer) {
-            return givenAnswer.isCorrect();
+            return isCorrect;
         }
     }
 }
