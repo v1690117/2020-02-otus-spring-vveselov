@@ -8,7 +8,7 @@ public class PollAnswerTest {
 
     @Test
     public void isCorrectTest() {
-        assertEquals("Check smth",
+        assertEquals("Answer is validated correctly",
                 new PollAnswer(
                         new Question.FakeQuestion(true), "correct")
                         .isCorrect(),
@@ -18,5 +18,12 @@ public class PollAnswerTest {
 
     @Test
     public void valueTest() {
+        assertEquals("Provided value for answer is retrieved",
+                "correct",
+                new PollAnswer(
+                        new Question.FakeQuestion(true),
+                        "correct"
+                ).value()
+        );
     }
 }

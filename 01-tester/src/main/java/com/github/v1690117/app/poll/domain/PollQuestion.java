@@ -32,14 +32,4 @@ public class PollQuestion implements Question {
     public String toString() {
         return String.format("%d) %s\n%s", number, content, variants);
     }
-
-    @AllArgsConstructor
-    private static class Variants {
-        String content;
-
-        @Override
-        public String toString() {
-            return content.replaceAll("\\|", "\n");
-        }
-    }
 }

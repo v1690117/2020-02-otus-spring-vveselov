@@ -29,11 +29,11 @@ public class SimplePoll implements Application {
         printResults();
     }
 
-    public void printRules() {
+    private void printRules() {
         System.out.println("Hi, user! You will be asked some questions. Please type correct answer! Good luck!\n");
     }
 
-    public void printResults() {
+    private void printResults() {
         System.out.println(
                 String.format(
                         "Your result is %d of %d!\n",
