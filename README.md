@@ -5,3 +5,6 @@
 
 _Student:_ Vladimir Veselov
 _Group:_ Spring-2020-02
+
+List of homework tasks: 
+1.  [Student poll](./01-tester/README.md)

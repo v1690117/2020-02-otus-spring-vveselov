@@ -1,0 +1,5 @@
+1;Are dependency injection and dependency inversion are the same thing?;yes|no;no;
+2;Does each service should solve only one task?;yes|no;yes;
+3;Which type of spring context configuration must be used in first task?;xml|java|annotation|none;xml;
+4;Where all dependencies must be described?;nowhere|IoC;IoC;
+5;Is now 2019 year?;yes|no;no;
