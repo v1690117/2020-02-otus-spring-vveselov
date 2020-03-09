@@ -14,6 +14,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,9 +22,11 @@ import java.util.stream.Stream;
 @PropertySource("classpath:app.properties")
 public class CsvResourceQuestionsFactory implements QuestionsFactory {
     private final String filename;
+    private final Locale locale;
 
-    public CsvResourceQuestionsFactory(@Value("${app.filename}") String filename) {
+    public CsvResourceQuestionsFactory(@Value("${app.filename}") String filename, Locale locale) {
         this.filename = filename;
+        this.locale = locale;
     }
 
     @SneakyThrows
@@ -36,10 +39,11 @@ public class CsvResourceQuestionsFactory implements QuestionsFactory {
 
     private Stream<String> readLines() {
         List<String> lines = new LinkedList<>();
+        String fileWithLocaleName = getFilename();
         try {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(
-                            this.getClass().getClassLoader().getResourceAsStream(filename),
+                            this.getClass().getClassLoader().getResourceAsStream(fileWithLocaleName),
                             StandardCharsets.UTF_8
                     )
             );
@@ -48,9 +52,17 @@ public class CsvResourceQuestionsFactory implements QuestionsFactory {
                 lines.add(line);
             }
         } catch (Exception ex) {
-            throw new RuntimeException(String.format("Problem with reading file %s!", filename));
+            throw new RuntimeException(String.format("Problem with reading file %s!", fileWithLocaleName));
         }
         return lines.stream();
+    }
+
+    private String getFilename() {
+        String fileWithLocaleName = filename.replaceAll("^(.*)(\\.csv)$", "$1_" + locale.toString() + "$2");
+        if (this.getClass().getClassLoader().getResourceAsStream(fileWithLocaleName) != null)
+            return fileWithLocaleName;
+        else
+            return filename;
     }
 
     private File getFileFromResources() {
