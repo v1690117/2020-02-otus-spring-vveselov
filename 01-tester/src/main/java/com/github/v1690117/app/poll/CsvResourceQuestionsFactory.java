@@ -2,8 +2,10 @@ package com.github.v1690117.app.poll;
 
 import com.github.v1690117.app.poll.domain.PollQuestion;
 import com.github.v1690117.app.poll.domain.Question;
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,9 +17,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@AllArgsConstructor
+@Service
+@PropertySource("classpath:app.properties")
 public class CsvResourceQuestionsFactory implements QuestionsFactory {
     private final String filename;
+
+    public CsvResourceQuestionsFactory(@Value("${app.filename}") String filename) {
+        this.filename = filename;
+    }
 
     @SneakyThrows
     @Override

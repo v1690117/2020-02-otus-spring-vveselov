@@ -3,20 +3,22 @@ package com.github.v1690117.app.poll;
 import com.github.v1690117.app.Application;
 import com.github.v1690117.app.poll.domain.Answer;
 import com.github.v1690117.app.poll.domain.Question;
-import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-@AllArgsConstructor
+@Service
 public class SimplePoll implements Application {
     private final QuestionsFactory questionsFactory;
     private final IO io;
     private final List<Answer> answers;
 
     public SimplePoll(QuestionsFactory questionsFactory, IO io) {
-        this(questionsFactory, io, new LinkedList<>());
+        this.questionsFactory = questionsFactory;
+        this.io = io;
+        this.answers = new LinkedList<>();
     }
 
     @Override
