@@ -3,6 +3,7 @@ package com.github.v1690117.app.poll;
 import com.github.v1690117.app.Application;
 import com.github.v1690117.app.poll.domain.Answer;
 import com.github.v1690117.app.poll.domain.Question;
+import com.github.v1690117.app.util.Printer;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -13,11 +14,13 @@ import java.util.Scanner;
 public class SimplePoll implements Application {
     private final QuestionsFactory questionsFactory;
     private final IO io;
+    private final Printer printer;
     private final List<Answer> answers;
 
-    public SimplePoll(QuestionsFactory questionsFactory, IO io) {
+    public SimplePoll(QuestionsFactory questionsFactory, IO io, Printer printer) {
         this.questionsFactory = questionsFactory;
         this.io = io;
+        this.printer = printer;
         this.answers = new LinkedList<>();
     }
 
@@ -34,24 +37,21 @@ public class SimplePoll implements Application {
     }
 
     private void greet() {
-        System.out.println("What is your name?");
+        printer.print("askForFirstName");
         String firstName = new Scanner(System.in).next();
-        System.out.println("What is your last name?");
+        printer.print("askForLastName");
         String lastName = new Scanner(System.in).next();
-        System.out.println(String.format("Hello, %s %s", firstName, lastName));
+        printer.print("greeting", firstName, lastName);
     }
 
     private void printRules() {
-        System.out.println("Hi, user! You will be asked some questions. Please type correct answer! Good luck!\n");
+        printer.print("rulesInfo");
     }
 
     private void printResults() {
-        System.out.println(
-                String.format(
-                        "Your result is %d of %d!\n",
-                        answers.stream().filter(Answer::isCorrect).count(),
-                        answers.size()
-                )
+        printer.print("resultInfo",
+                String.valueOf(answers.stream().filter(Answer::isCorrect).count()),
+                String.valueOf(answers.size())
         );
     }
 }
