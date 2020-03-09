@@ -34,14 +34,21 @@ public class CsvResourceQuestionsFactory implements QuestionsFactory {
                 .collect(Collectors.toList());
     }
 
-    @SneakyThrows
     private Stream<String> readLines() {
         List<String> lines = new LinkedList<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                this.getClass().getClassLoader().getResourceAsStream(filename), StandardCharsets.UTF_8));
-        String line;
-        while ((line = br.readLine()) != null) {
-            lines.add(line);
+        try {
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(
+                            this.getClass().getClassLoader().getResourceAsStream(filename),
+                            StandardCharsets.UTF_8
+                    )
+            );
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(String.format("Problem with reading file %s!", filename));
         }
         return lines.stream();
     }
