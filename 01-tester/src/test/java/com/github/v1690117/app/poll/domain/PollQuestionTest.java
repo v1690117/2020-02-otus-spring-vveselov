@@ -1,5 +1,6 @@
 package com.github.v1690117.app.poll.domain;
 
+import com.github.v1690117.test.util.NoEndLineText;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,8 +37,8 @@ public class PollQuestionTest {
     public void testAsk() {
         question.ask();
         Assert.assertEquals("Ask method works",
-                removeEndLineChars("1) Are you correct?\ncorrect\nincorrect\n"),
-                removeEndLineChars(outContent.toString())
+                new NoEndLineText("1) Are you correct?\ncorrect\nincorrect\n"),
+                new NoEndLineText(outContent.toString())
         );
     }
 
@@ -47,10 +48,6 @@ public class PollQuestionTest {
                 "1) Are you correct?\ncorrect\nincorrect",
                 question.toString()
         );
-    }
-
-    private String removeEndLineChars(String in) {
-        return in.replaceAll("\\n", "").replaceAll("\\r", "");
     }
 
     @After
