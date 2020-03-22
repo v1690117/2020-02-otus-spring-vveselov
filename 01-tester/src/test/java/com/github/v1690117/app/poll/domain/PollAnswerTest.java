@@ -1,14 +1,16 @@
 package com.github.v1690117.app.poll.domain;
 
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PollAnswerTest {
 
+    @DisplayName("Answer is validated correctly")
     @Test
     public void isCorrectTest() {
-        assertEquals("Answer is validated correctly",
+        assertEquals(
                 new PollAnswer(
                         new Question.FakeQuestion(true), "correct")
                         .isCorrect(),
@@ -16,9 +18,10 @@ public class PollAnswerTest {
         );
     }
 
+    @DisplayName("Provided value for answer is retrieved")
     @Test
     public void valueTest() {
-        assertEquals("Provided value for answer is retrieved",
+        assertEquals(
                 "correct",
                 new PollAnswer(
                         new Question.FakeQuestion(true),
