@@ -3,3 +3,5 @@ application:
 spring:
   messages:
     basename: i18n/bundle
+    banner:
+      location: 'classpath:/banner.txt'
