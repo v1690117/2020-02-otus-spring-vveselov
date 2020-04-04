@@ -11,11 +11,4 @@ public interface IO {
      * @return data retrieved from input.
      */
     Object readInputData(Object output);
-
-    class FakeIO implements IO {
-        @Override
-        public Object readInputData(Object output) {
-            return output;
-        }
-    }
 }
