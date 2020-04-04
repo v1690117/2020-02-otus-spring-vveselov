@@ -3,55 +3,64 @@ package com.github.v1690117.app.poll;
 import com.github.v1690117.app.Application;
 import com.github.v1690117.app.poll.domain.Answer;
 import com.github.v1690117.app.poll.domain.Question;
+import com.github.v1690117.app.poll.domain.Stats;
+import com.github.v1690117.app.poll.domain.User;
 import com.github.v1690117.app.util.Printer;
-import org.springframework.stereotype.Service;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-@Service
+@ShellComponent
 public class SimplePoll implements Application {
     private final QuestionsFactory questionsFactory;
     private final IO io;
     private final Printer printer;
-    private final List<Answer> answers;
+    private final Stats stats;
 
-    public SimplePoll(QuestionsFactory questionsFactory, IO io, Printer printer) {
+    public SimplePoll(QuestionsFactory questionsFactory, IO io, Printer printer, Stats stats) {
         this.questionsFactory = questionsFactory;
         this.io = io;
         this.printer = printer;
-        this.answers = new LinkedList<>();
+        this.stats = stats;
     }
 
+    @ShellMethod(value = "Starts the poll", key = {"r", "run"})
     @Override
     public void run() {
         List<Question> questions = questionsFactory.questions();
-        greet();
+        User user = getUser();
+        greet(user);
         printRules();
         for (Question question : questions) {
             Answer answer = Answer.class.cast(io.readInputData(question));
-            answers.add(answer);
+            stats.add(user, answer);
         }
-        printResults();
     }
 
-    private void greet() {
+    private User getUser() {
         printer.print("askForFirstName");
         String firstName = new Scanner(System.in).next();
         printer.print("askForLastName");
         String lastName = new Scanner(System.in).next();
-        printer.print("greeting", firstName, lastName);
+        User user = new User(firstName, lastName);
+        return user;
+    }
+
+    private void greet(User user) {
+        printer.print(
+                "greeting",
+                user.toString()
+        );
     }
 
     private void printRules() {
         printer.print("rulesInfo");
     }
 
-    private void printResults() {
-        printer.print("resultInfo",
-                String.valueOf(answers.stream().filter(Answer::isCorrect).count()),
-                String.valueOf(answers.size())
-        );
+    @ShellMethod(value = "Prints statistic", key = {"s", "stats"})
+    public void printStats() {
+        stats.print();
     }
 }
