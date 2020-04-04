@@ -2,6 +2,7 @@ package com.github.v1690117.app.poll.domain;
 
 import com.github.v1690117.app.util.Printer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
 public class PollStats implements Stats {
     private final Printer printer;
     private final Map<User, StatsItem> statistic;
+    private double bestResult;
 
     @Override
     public void add(User user, Answer answer) {
@@ -32,22 +34,21 @@ public class PollStats implements Stats {
                 printer.print(
                         "resultInfo",
                         user.toString(),
-                        String.valueOf(statsItem.correctAnswers),
-                        String.valueOf(statsItem.questionsAsked)
+                        String.valueOf(statsItem.getCorrectAnswers()),
+                        String.valueOf(statsItem.getQuestionsAsked())
                 ));
     }
 
-    class StatsItem {
-        private int questionsAsked;
-        private int correctAnswers;
-
-        public void addCorrect() {
-            questionsAsked++;
-            correctAnswers++;
+    @EventListener
+    public void onPollFinished(PollFinishedEvent finishedEvent) {
+        double userResult = statistic.get(
+                finishedEvent.getUser()
+        ).getResult();
+        if (bestResult == 0) {
+            bestResult = userResult;
         }
-
-        public void addWrong() {
-            questionsAsked++;
+        if (userResult > bestResult) {
+            printer.print("newBestResult");
         }
     }
 }

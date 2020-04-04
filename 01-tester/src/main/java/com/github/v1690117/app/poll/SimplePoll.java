@@ -2,10 +2,12 @@ package com.github.v1690117.app.poll;
 
 import com.github.v1690117.app.Application;
 import com.github.v1690117.app.poll.domain.Answer;
+import com.github.v1690117.app.poll.domain.PollFinishedEvent;
 import com.github.v1690117.app.poll.domain.Question;
 import com.github.v1690117.app.poll.domain.Stats;
 import com.github.v1690117.app.poll.domain.User;
 import com.github.v1690117.app.util.Printer;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
@@ -18,12 +20,14 @@ public class SimplePoll implements Application {
     private final IO io;
     private final Printer printer;
     private final Stats stats;
+    private final ApplicationEventPublisher publisher;
 
-    public SimplePoll(QuestionsFactory questionsFactory, IO io, Printer printer, Stats stats) {
+    public SimplePoll(QuestionsFactory questionsFactory, IO io, Printer printer, Stats stats, ApplicationEventPublisher publisher) {
         this.questionsFactory = questionsFactory;
         this.io = io;
         this.printer = printer;
         this.stats = stats;
+        this.publisher = publisher;
     }
 
     @ShellMethod(value = "Starts the poll", key = {"r", "run"})
@@ -37,6 +41,7 @@ public class SimplePoll implements Application {
             Answer answer = Answer.class.cast(io.readInputData(question));
             stats.add(user, answer);
         }
+        publisher.publishEvent(new PollFinishedEvent(user));
     }
 
     private User getUser() {
