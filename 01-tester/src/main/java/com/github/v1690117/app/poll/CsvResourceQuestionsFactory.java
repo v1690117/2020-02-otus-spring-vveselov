@@ -2,15 +2,13 @@ package com.github.v1690117.app.poll;
 
 import com.github.v1690117.app.poll.domain.PollQuestion;
 import com.github.v1690117.app.poll.domain.Question;
+import com.github.v1690117.app.properties.AppProperties;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,15 +17,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-@PropertySource("classpath:app.properties")
+@AllArgsConstructor
 public class CsvResourceQuestionsFactory implements QuestionsFactory {
-    private final String filename;
     private final Locale locale;
-
-    public CsvResourceQuestionsFactory(@Value("${app.filename}") String filename, Locale locale) {
-        this.filename = filename;
-        this.locale = locale;
-    }
+    private final AppProperties properties;
 
     @SneakyThrows
     @Override
@@ -58,16 +51,10 @@ public class CsvResourceQuestionsFactory implements QuestionsFactory {
     }
 
     private String getFilename() {
-        String fileWithLocaleName = filename.replaceAll("^(.*)(\\.csv)$", "$1_" + locale.toString() + "$2");
+        String fileWithLocaleName = properties.getFilename().replaceAll("^(.*)(\\.csv)$", "$1_" + locale.toString() + "$2");
         if (this.getClass().getClassLoader().getResourceAsStream(fileWithLocaleName) != null)
             return fileWithLocaleName;
         else
-            return filename;
-    }
-
-    private File getFileFromResources() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(filename);
-        return new File(resource.getFile());
+            return properties.getFilename();
     }
 }

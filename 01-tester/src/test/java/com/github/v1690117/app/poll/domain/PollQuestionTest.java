@@ -1,13 +1,15 @@
 package com.github.v1690117.app.poll.domain;
 
 import com.github.v1690117.test.util.NoEndLineText;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PollQuestionTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -15,7 +17,7 @@ public class PollQuestionTest {
 
     private Question question;
 
-    @Before
+    @BeforeEach
     public void init() {
         question = new PollQuestion("1", "Are you correct?", "correct|incorrect", "correct");
         System.setOut(new PrintStream(outContent));
@@ -23,34 +25,36 @@ public class PollQuestionTest {
 
     @Test
     public void testValidate() {
-        Assert.assertEquals("",
+        assertEquals(
                 true,
                 question.validate(new Answer.FakeRightAnswer())
         );
-        Assert.assertEquals("",
+        assertEquals(
                 false,
                 question.validate(new Answer.FakeWrongAnswer())
         );
     }
 
+    @DisplayName("Ask method works")
     @Test
     public void testAsk() {
         question.ask();
-        Assert.assertEquals("Ask method works",
+        assertEquals(
                 new NoEndLineText("1) Are you correct?\ncorrect\nincorrect\n"),
                 new NoEndLineText(outContent.toString())
         );
     }
 
+    @DisplayName("String value is correct")
     @Test
     public void testToString() {
-        Assert.assertEquals("String value is correct",
+        assertEquals(
                 "1) Are you correct?\ncorrect\nincorrect",
                 question.toString()
         );
     }
 
-    @After
+    @AfterEach
     public void restoreStreams() {
         System.setOut(originalOut);
     }
