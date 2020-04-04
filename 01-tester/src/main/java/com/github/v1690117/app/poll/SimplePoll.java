@@ -8,13 +8,12 @@ import com.github.v1690117.app.poll.domain.Stats;
 import com.github.v1690117.app.poll.domain.User;
 import com.github.v1690117.app.util.Printer;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Scanner;
 
-@ShellComponent
+@Service
 public class SimplePoll implements Application {
     private final QuestionsFactory questionsFactory;
     private final IO io;
@@ -30,7 +29,6 @@ public class SimplePoll implements Application {
         this.publisher = publisher;
     }
 
-    @ShellMethod(value = "Starts the poll", key = {"r", "run"})
     @Override
     public void run() {
         List<Question> questions = questionsFactory.questions();
@@ -64,7 +62,7 @@ public class SimplePoll implements Application {
         printer.print("rulesInfo");
     }
 
-    @ShellMethod(value = "Prints statistic", key = {"s", "stats"})
+    @Override
     public void printStats() {
         stats.print();
     }

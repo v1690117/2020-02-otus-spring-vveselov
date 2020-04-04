@@ -16,4 +16,11 @@ public interface Stats {
      * Prints current stats.
      */
     void print();
+
+    /**
+     * Describes whether any statistic is available or it's just empty.
+     *
+     * @return true if there are no any stats.
+     */
+    boolean isEmpty();
 }

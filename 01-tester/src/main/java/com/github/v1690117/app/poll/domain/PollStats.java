@@ -39,6 +39,11 @@ public class PollStats implements Stats {
                 ));
     }
 
+    @Override
+    public boolean isEmpty() {
+        return statistic.isEmpty();
+    }
+
     @EventListener
     public void onPollFinished(PollFinishedEvent finishedEvent) {
         double userResult = statistic.get(
