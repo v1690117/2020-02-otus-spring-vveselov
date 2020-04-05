@@ -7,4 +7,5 @@ _Student:_ Vladimir Veselov
 _Group:_ Spring-2020-02
 
 List of homework tasks: 
-1.  [Student poll](./01-tester/README.md)
+1.  [Student poll](./01-tester/README.md)  
+5.  [Book storage](./05-book-storage/README.md)  
