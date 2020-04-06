@@ -8,4 +8,9 @@ public interface Application {
      * Starts application.
      */
     void run();
+
+    /**
+     * Prints any statistic.
+     */
+    void printStats();
 }
