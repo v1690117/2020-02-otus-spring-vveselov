@@ -32,7 +32,7 @@ public class Book {
     @Override
     public String toString() {
         return String.format(
-                "%s. '%s' (%s) by %s.\n%s.\n%s\n",
+                "%d. '%s' (%s y.) by %s.\n%s.\n%s\n",
                 id,
                 title,
                 year,

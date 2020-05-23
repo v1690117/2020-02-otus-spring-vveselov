@@ -1,13 +1,12 @@
 package com.v1690117.app.dao;
 
+import com.v1690117.app.dao.jdbc.mappers.DefaultGenreMapperProvider;
 import com.v1690117.app.model.Book;
 import com.v1690117.app.model.Genre;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,11 +14,7 @@ import java.util.List;
 @Repository
 public class BookGenresDaoJdbc implements BookGenresDao {
     private final NamedParameterJdbcOperations jdbc;
-
-    private final RowMapper<Genre> genreRowMapper = (ResultSet resultSet, int i) -> new Genre(
-            resultSet.getLong("genre_id"),
-            resultSet.getString("name")
-    );
+    private final DefaultGenreMapperProvider genreMapperProvider;
 
     @Override
     public long count() {
@@ -34,7 +29,7 @@ public class BookGenresDaoJdbc implements BookGenresDao {
                         + "inner join books_genres bg on g.genre_id = bg.genre_id "
                         + "where bg.book_id = :id",
                 Collections.singletonMap("id", bookId),
-                genreRowMapper
+                genreMapperProvider.mapper()
         );
     }
 

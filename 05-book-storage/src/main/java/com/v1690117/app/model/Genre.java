@@ -19,6 +19,10 @@ public class Genre {
 
     @Override
     public String toString() {
-        return name;
+        return String.format(
+                "%s (%d)",
+                name,
+                id
+        );
     }
 }

@@ -1,13 +1,12 @@
 package com.v1690117.app.dao;
 
+import com.v1690117.app.dao.jdbc.mappers.AuthorMapperProvider;
 import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,12 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookAuthorsDaoJdbc implements BookAuthorsDao {
     private final NamedParameterJdbcOperations jdbc;
-
-    private final RowMapper<Author> authorRowMapper = (ResultSet resultSet, int i) -> new Author(
-            resultSet.getLong("author_id"),
-            resultSet.getString("first_name"),
-            resultSet.getString("last_name")
-    );
+    private final AuthorMapperProvider authorMapperProvider;
 
     @Override
     public List<Author> findAuthorsByBookId(long bookId) {
@@ -30,7 +24,7 @@ public class BookAuthorsDaoJdbc implements BookAuthorsDao {
                         + "inner join books_authors ba on a.author_id = ba.author_id "
                         + "where ba.book_id = :id",
                 Collections.singletonMap("id", bookId),
-                authorRowMapper
+                authorMapperProvider.mapper()
         );
     }
 
