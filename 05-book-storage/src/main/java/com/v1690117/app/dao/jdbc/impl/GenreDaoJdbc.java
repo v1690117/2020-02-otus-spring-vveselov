@@ -1,5 +1,6 @@
-package com.v1690117.app.dao;
+package com.v1690117.app.dao.jdbc.impl;
 
+import com.v1690117.app.dao.GenreDao;
 import com.v1690117.app.dao.jdbc.mappers.GenreMapperProvider;
 import com.v1690117.app.model.Genre;
 import lombok.RequiredArgsConstructor;

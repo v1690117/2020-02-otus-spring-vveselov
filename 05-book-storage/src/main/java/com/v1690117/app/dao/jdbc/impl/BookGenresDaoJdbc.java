@@ -1,5 +1,6 @@
-package com.v1690117.app.dao;
+package com.v1690117.app.dao.jdbc.impl;
 
+import com.v1690117.app.dao.BookGenresDao;
 import com.v1690117.app.dao.jdbc.mappers.DefaultGenreMapperProvider;
 import com.v1690117.app.model.Book;
 import com.v1690117.app.model.Genre;

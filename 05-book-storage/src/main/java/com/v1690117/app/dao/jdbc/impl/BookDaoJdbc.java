@@ -1,5 +1,8 @@
-package com.v1690117.app.dao;
+package com.v1690117.app.dao.jdbc.impl;
 
+import com.v1690117.app.dao.BookAuthorsDao;
+import com.v1690117.app.dao.BookDao;
+import com.v1690117.app.dao.BookGenresDao;
 import com.v1690117.app.model.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;

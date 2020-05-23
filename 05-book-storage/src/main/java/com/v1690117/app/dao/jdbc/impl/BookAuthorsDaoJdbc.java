@@ -1,5 +1,6 @@
-package com.v1690117.app.dao;
+package com.v1690117.app.dao.jdbc.impl;
 
+import com.v1690117.app.dao.BookAuthorsDao;
 import com.v1690117.app.dao.jdbc.mappers.AuthorMapperProvider;
 import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
