@@ -7,6 +7,8 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
+import java.util.ArrayList;
+
 @ShellComponent
 @RequiredArgsConstructor
 public class Commands {
@@ -15,7 +17,7 @@ public class Commands {
     @ShellMethod(value = "Prints book(s)", key = {"p", "print"})
     public void get(@ShellOption(value = {"-i", "--id"}, defaultValue = "-1") long id) {
         if (id == -1)
-            dao.getAll().forEach(System.out::println);
+            dao.findAll().forEach(System.out::println);
         else
             System.out.println(dao.findById(id));
     }
@@ -27,7 +29,11 @@ public class Commands {
         dao.insert(
                 new Book(
                         dao.count() + 1,
-                        title
+                        title,
+                        "annotation",
+                        "year", // todo
+                        new ArrayList<>(),
+                        new ArrayList<>()
                 )
         );
     }
@@ -43,14 +49,18 @@ public class Commands {
         dao.update(
                 new Book(
                         id,
-                        title
+                        title,
+                        "annotation",
+                        "year", // todo
+                        new ArrayList<>(),
+                        new ArrayList<>()
                 )
         );
     }
 
     @ShellMethod(value = "Clears storage", key = {"c", "clean"})
     public void clear() {
-        dao.getAll().forEach(book -> dao.delete(book.getId()));
+        dao.findAll().forEach(book -> dao.delete(book.getId()));
     }
 
     @ShellMethod(value = "Deletes the book", key = {"d", "delete"})
