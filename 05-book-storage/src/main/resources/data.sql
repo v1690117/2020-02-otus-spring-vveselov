@@ -26,6 +26,7 @@ INSERT INTO authors VALUES (15, 'Foemmel', 'Matthew');
 INSERT INTO authors VALUES (16, 'Hieatt', 'Edward');
 INSERT INTO authors VALUES (17, 'Mee', 'Robert');
 INSERT INTO authors VALUES (18, 'Stafford', 'Randy');
+INSERT INTO authors VALUES (19, 'Unkown', 'Unkown');
 INSERT INTO authors VALUES (20, 'Helm', 'Richard');
 INSERT INTO authors VALUES (21, 'Robson', 'Elisabeth');
 INSERT INTO authors VALUES (22, 'Beck', 'Kent');

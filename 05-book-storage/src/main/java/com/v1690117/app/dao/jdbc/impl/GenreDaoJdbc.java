@@ -60,7 +60,6 @@ public class GenreDaoJdbc implements GenreDao {
 
     @Override
     public void delete(long id) {
-        // todo check rels
         jdbc.update(
                 "delete from genres where genre_id = :id",
                 Collections.singletonMap("id", id)

@@ -8,7 +8,7 @@ import java.util.List;
 public interface BookAuthorsDao {
     List<Author> findAuthorsByBookId(long id);
 
-    void addAuthorForBook(Book book, Author author);
+    void addAuthorForBook(long bookId, long authorId);
 
-    void deleteAuthorForBook(Book book, Author author);
+    void deleteAuthorForBook(long bookId, long authorId);
 }

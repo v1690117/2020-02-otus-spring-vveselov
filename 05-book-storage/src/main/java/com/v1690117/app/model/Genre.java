@@ -1,11 +1,11 @@
 package com.v1690117.app.model;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor
+@Data
 public class Genre {
     private final long id;
     private final String name;

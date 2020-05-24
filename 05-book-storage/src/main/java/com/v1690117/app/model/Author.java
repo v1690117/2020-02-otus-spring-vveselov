@@ -1,11 +1,11 @@
 package com.v1690117.app.model;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor
+@Data
 public class Author {
     private final long id;
     private final String firstName;
@@ -14,8 +14,8 @@ public class Author {
     public Map<String, Object> map() {
         return new HashMap<String, Object>() {{
             put("id", id);
-            put("first_name", firstName);
-            put("last_name", lastName);
+            put("firstName", firstName);
+            put("lastName", lastName);
         }};
     }
 

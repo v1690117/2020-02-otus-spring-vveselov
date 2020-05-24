@@ -3,7 +3,6 @@ package com.v1690117.app.dao.jdbc.impl;
 import com.v1690117.app.dao.AuthorDao;
 import com.v1690117.app.dao.jdbc.mappers.AuthorMapperProvider;
 import com.v1690117.app.model.Author;
-import com.v1690117.app.model.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
@@ -47,19 +46,21 @@ public class AuthorDaoJdbc implements AuthorDao {
     public void insert(Author author) {
         jdbc.update(
                 "insert into authors (author_id, first_name, last_name) "
-                        + "values  (:id, :first_name, :last_name)",
+                        + "values  (:id, :firstName, :lastName)",
                 author.map()
         );
     }
 
     @Override
     public void update(Author author) {
-        // todo
+        jdbc.update(
+                "update authors set  first_name = :firstName, last_name = :lastName where author_id = :id",
+                author.map()
+        );
     }
 
     @Override
     public void delete(long id) {
-        // todo check rels
         jdbc.update(
                 "delete from authors where author_id = :id",
                 Collections.singletonMap("id", id)

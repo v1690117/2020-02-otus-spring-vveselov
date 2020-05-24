@@ -1,15 +1,13 @@
 package com.v1690117.app.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Getter
-@RequiredArgsConstructor
+@Data
 public class Book {
     private final long id;
     private final String title;
@@ -23,7 +21,7 @@ public class Book {
             put("id", id);
             put("title", title);
             put("annotation", annotation);
-            put("year ", year);
+            put("year", year);
             put("authors", authors);
             put("genres", genres);
         }};

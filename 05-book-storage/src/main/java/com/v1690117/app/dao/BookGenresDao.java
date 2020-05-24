@@ -9,8 +9,8 @@ public interface BookGenresDao {
     long count();
 
     List<Genre> findGenresByBookId(long id);
+    
+    void addGenreForBook(long bookId, long genreId);
 
-    void addGenreForBook(Book book, Genre genre);
-
-    void deleteGenreForBook(Book book, Genre genre);
+    void deleteGenreForBook(long bookId, long genreId );
 }
