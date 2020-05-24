@@ -18,6 +18,7 @@
     </properties>
     <modules>
         <module>01-tester</module>
+        <module>05-book-storage</module>
     </modules>
     <build>
         <plugins>
