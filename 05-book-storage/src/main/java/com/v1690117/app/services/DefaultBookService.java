@@ -62,15 +62,15 @@ public class DefaultBookService implements BookService {
     @Override
     public Book update(long id, String title, String annotation, String year, long[] authors, long[] genres) {
         Book book = bookDao.findById(id);
-        if (title.isEmpty())
+        if (title == null || title.isEmpty())
             title = book.getTitle();
-        if (annotation.isEmpty())
+        if (annotation == null || annotation.isEmpty())
             annotation = book.getAnnotation();
-        if (year.isEmpty())
+        if (year == null || year.isEmpty())
             year = book.getYear();
         List<Author> authorList = new LinkedList<>();
         List<Genre> genreList = new LinkedList<>();
-        if (authors.length > 0) {
+        if (authors != null && authors.length > 0) {
             for (long authorId : authors) {
                 authorList.add(
                         authorDao.findById(authorId)
@@ -79,7 +79,7 @@ public class DefaultBookService implements BookService {
         } else {
             authorList.addAll(book.getAuthors());
         }
-        if (genres.length > 0) {
+        if (genres != null && genres.length > 0) {
             for (long genreId : genres) {
                 genreList.add(
                         genreDao.findById(genreId)
