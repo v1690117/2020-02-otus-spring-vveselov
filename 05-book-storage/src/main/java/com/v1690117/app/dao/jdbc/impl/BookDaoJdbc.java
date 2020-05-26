@@ -82,8 +82,6 @@ public class BookDaoJdbc implements BookDao {
         );
         updateAuthors(book, prevBook);
         updateGenres(book, prevBook);
-        // get new genres
-        // get lost genres
     }
 
     @Override

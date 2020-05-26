@@ -51,7 +51,7 @@ public class AuthorCommands {
 
     @ShellMethod(value = "Clears authors storage", key = {"ca", "clear authors"})
     public void clear() {
-        authorService.findAll().forEach(genre -> authorService.delete(genre.getId()));
+        authorService.findAll().forEach(author -> authorService.delete(author.getId()));
     }
 
     @ShellMethod(value = "Deletes the author", key = {"da", "delete author"})

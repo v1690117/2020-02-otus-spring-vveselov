@@ -10,9 +10,9 @@ public interface GenreService {
 
     Genre findById(long id);
 
-    void insert(Genre author);
+    void insert(Genre genre);
 
-    void update(Genre author);
+    void update(Genre genre);
 
     void delete(long id);
 }
