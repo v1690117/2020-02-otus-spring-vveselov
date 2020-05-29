@@ -35,23 +35,31 @@ public class BookDaoJdbc implements BookDao {
         );
     };
 
-    private BookGenresDao getBookGenresDao() {
-        return bookGenresDao;
-    }
-
-    private BookAuthorsDao getBookAuthorsDao() {
-        return bookAuthorsDao;
-    }
-
     @Override
     public long count() {
         return jdbc.queryForObject(
-                "select count(*) from books",
+                "select count(book_id) from books",
                 Collections.emptyMap(),
                 Long.class
         );
     }
 
+    @Override
+    public Book findById(long id) {
+        return jdbc.queryForObject(
+                "select book_id, title, annotation, year from books where book_id = :id",
+                Collections.singletonMap("id", id),
+                mapper
+        );
+    }
+
+    @Override
+    public List<Book> findAll() {
+        return jdbc.query(
+                "select book_id, title, annotation, year from books",
+                mapper
+        );
+    }
 
     @Override
     public void insert(Book book) {
@@ -106,21 +114,12 @@ public class BookDaoJdbc implements BookDao {
         );
     }
 
-    @Override
-    public Book findById(long id) {
-        return jdbc.queryForObject(
-                "select * from books where book_id = :id",
-                Collections.singletonMap("id", id),
-                mapper
-        );
+    private BookGenresDao getBookGenresDao() {
+        return bookGenresDao;
     }
 
-    @Override
-    public List<Book> findAll() {
-        return jdbc.query(
-                "select * from books",
-                mapper
-        );
+    private BookAuthorsDao getBookAuthorsDao() {
+        return bookAuthorsDao;
     }
 
     private void updateAuthors(Book book, Book prevBook) {

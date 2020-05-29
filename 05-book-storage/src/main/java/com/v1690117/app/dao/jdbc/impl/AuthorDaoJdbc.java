@@ -19,7 +19,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public long count() {
         return jdbc.queryForObject(
-                "select count(*) from authors``",
+                "select count(author_id) from authors``",
                 Collections.emptyMap(),
                 Long.class
         );
@@ -28,7 +28,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public Author findById(long id) {
         return jdbc.queryForObject(
-                "select * from authors where author_id = :id",
+                "select author_id, first_name, last_name from authors where author_id = :id",
                 Collections.singletonMap("id", id),
                 authorMapperProvider.mapper()
         );
@@ -37,7 +37,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public List<Author> findAll() {
         return jdbc.query(
-                "select * from authors",
+                "select author_id, first_name, last_name from authors",
                 authorMapperProvider.mapper()
         );
     }
@@ -54,7 +54,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public void update(Author author) {
         jdbc.update(
-                "update authors set  first_name = :firstName, last_name = :lastName where author_id = :id",
+                "update authors set first_name = :firstName, last_name = :lastName where author_id = :id",
                 author.map()
         );
     }

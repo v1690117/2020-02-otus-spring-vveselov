@@ -19,7 +19,7 @@ public class GenreDaoJdbc implements GenreDao {
     @Override
     public long count() {
         return jdbc.queryForObject(
-                "select count(*) from genres",
+                "select count(genre_id) from genres",
                 Collections.emptyMap(),
                 Long.class
         );
@@ -28,7 +28,7 @@ public class GenreDaoJdbc implements GenreDao {
     @Override
     public Genre findById(long id) {
         return jdbc.queryForObject(
-                "select * from genres where genre_id = :id",
+                "select genre_id, name from genres where genre_id = :id",
                 Collections.singletonMap("id", id),
                 genreMapperProvider.mapper()
         );
@@ -37,7 +37,7 @@ public class GenreDaoJdbc implements GenreDao {
     @Override
     public List<Genre> findAll() {
         return jdbc.query(
-                "select * from genres",
+                "select genre_id, name from genres",
                 genreMapperProvider.mapper()
         );
     }
