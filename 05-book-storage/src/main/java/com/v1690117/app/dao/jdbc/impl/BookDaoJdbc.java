@@ -3,17 +3,20 @@ package com.v1690117.app.dao.jdbc.impl;
 import com.v1690117.app.dao.BookAuthorsDao;
 import com.v1690117.app.dao.BookDao;
 import com.v1690117.app.dao.BookGenresDao;
+import com.v1690117.app.dao.jdbc.mappers.BookMapperProvider;
 import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
 import com.v1690117.app.model.Genre;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -22,18 +25,7 @@ public class BookDaoJdbc implements BookDao {
     private final BookGenresDao bookGenresDao;
     private final BookAuthorsDao bookAuthorsDao;
     private final NamedParameterJdbcOperations jdbc;
-
-    private final RowMapper<Book> mapper = (ResultSet resultSet, int i) -> {
-        long bookId = resultSet.getLong("book_id");
-        return new Book(
-                bookId,
-                resultSet.getString("title"),
-                resultSet.getString("annotation"),
-                resultSet.getString("year"),
-                getBookAuthorsDao().findAuthorsByBookId(bookId),
-                getBookGenresDao().findGenresByBookId(bookId)
-        );
-    };
+    private final BookMapperProvider mapperProvider;
 
     @Override
     public long count() {
@@ -46,18 +38,48 @@ public class BookDaoJdbc implements BookDao {
 
     @Override
     public Book findById(long id) {
-        return jdbc.queryForObject(
-                "select book_id, title, annotation, year from books where book_id = :id",
-                Collections.singletonMap("id", id),
-                mapper
+        List<Book> books = mergeBooks(
+                jdbc.query(
+                        "select "
+                                + "b.book_id, b.title, b.year, b.annotation, b.year, "
+                                + "ba.author_id, ba.first_name, ba.last_name, "
+                                + "bg.genre_id, bg.name "
+                                + "from books b "
+                                + "left join (select ba.author_id, ba.book_id, a.first_name, a.last_name "
+                                + "  from books_authors ba "
+                                + "  left join authors a on ba.author_id = a.author_id) ba "
+                                + "on b.book_id = ba.book_id "
+                                + "  left join (select bg.genre_id, bg.book_id, g.name "
+                                + "  from books_genres bg "
+                                + "left join genres g on bg.genre_id = g.genre_id) bg "
+                                + "on b.book_id = bg.book_id "
+                                + "where b.book_id = :id;",
+                        Collections.singletonMap("id", id),
+                        mapperProvider.mapper()
+                )
         );
+        return books.get(0);
     }
 
     @Override
     public List<Book> findAll() {
-        return jdbc.query(
-                "select book_id, title, annotation, year from books",
-                mapper
+        return mergeBooks(
+                jdbc.query(
+                        "select "
+                                + "b.book_id, b.title, b.year, b.annotation, b.year, "
+                                + "ba.author_id, ba.first_name, ba.last_name, "
+                                + "bg.genre_id, bg.name "
+                                + "from books b "
+                                + "left join (select ba.author_id, ba.book_id, a.first_name, a.last_name "
+                                + "  from books_authors ba "
+                                + "  left join authors a on ba.author_id = a.author_id) ba "
+                                + "on b.book_id = ba.book_id "
+                                + "  left join (select bg.genre_id, bg.book_id, g.name "
+                                + "  from books_genres bg "
+                                + "left join genres g on bg.genre_id = g.genre_id) bg "
+                                + "on b.book_id = bg.book_id;",
+                        mapperProvider.mapper()
+                )
         );
     }
 
@@ -112,14 +134,6 @@ public class BookDaoJdbc implements BookDao {
                 "delete from books where book_id = :id",
                 Collections.singletonMap("id", id)
         );
-    }
-
-    private BookGenresDao getBookGenresDao() {
-        return bookGenresDao;
-    }
-
-    private BookAuthorsDao getBookAuthorsDao() {
-        return bookAuthorsDao;
     }
 
     private void updateAuthors(Book book, Book prevBook) {
@@ -206,5 +220,44 @@ public class BookDaoJdbc implements BookDao {
                         genre.getId()
                 )
         );
+    }
+
+    private List<Book> mergeBooks(List<Book> bookList) {
+        Map<Long, Book> books = new LinkedHashMap<>();
+        bookList.forEach(book -> {
+            if (books.containsKey(book.getId())) {
+                Book b = books.get(book.getId());
+                b.getAuthors().addAll(book.getAuthors());
+                b.getGenres().addAll(book.getGenres());
+            } else {
+                books.put(
+                        book.getId(),
+                        new Book(book)
+                );
+            }
+        });
+        return books.keySet()
+                .stream()
+                .map(bookId -> {
+                            Book book = books.get(bookId);
+                            return new Book(
+                                    bookId,
+                                    book.getTitle(),
+                                    book.getAnnotation(),
+                                    book.getYear(),
+                                    new LinkedList<>(
+                                            new LinkedHashSet<>(
+                                                    book.getAuthors()
+                                            )
+                                    ),
+                                    new LinkedList<>(
+                                            new LinkedHashSet<>(
+                                                    book.getGenres()
+                                            )
+                                    )
+                            );
+                        }
+                )
+                .collect(Collectors.toList());
     }
 }
