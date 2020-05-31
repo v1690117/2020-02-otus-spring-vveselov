@@ -8,4 +8,5 @@ _Group:_ Spring-2020-02
 
 List of homework tasks: 
 1.  [Student poll](./01-tester/README.md)  
-5.  [Book storage](./05-book-storage/README.md)  
+5.  [Book storage with JDBC](./05-book-storage/README.md)  
+6.  [Book storage with ORM](./06-book-storage-orm/README.md)  
