@@ -27,6 +27,20 @@ public class BookDaoJdbc implements BookDao {
     private final NamedParameterJdbcOperations jdbc;
     private final BookMapperProvider mapperProvider;
 
+    private static final String SELECT_BOOKS = "select "
+            + "b.book_id, b.title, b.year, b.annotation, b.year, "
+            + "ba.author_id, ba.first_name, ba.last_name, "
+            + "bg.genre_id, bg.name "
+            + "from books b "
+            + "left join (select ba.author_id, ba.book_id, a.first_name, a.last_name "
+            + "  from books_authors ba "
+            + "  left join authors a on ba.author_id = a.author_id) ba "
+            + "on b.book_id = ba.book_id "
+            + "  left join (select bg.genre_id, bg.book_id, g.name "
+            + "  from books_genres bg "
+            + "left join genres g on bg.genre_id = g.genre_id) bg "
+            + "on b.book_id = bg.book_id ";
+
     @Override
     public long count() {
         return jdbc.queryForObject(
@@ -40,20 +54,8 @@ public class BookDaoJdbc implements BookDao {
     public Book findById(long id) {
         List<Book> books = mergeBooks(
                 jdbc.query(
-                        "select "
-                                + "b.book_id, b.title, b.year, b.annotation, b.year, "
-                                + "ba.author_id, ba.first_name, ba.last_name, "
-                                + "bg.genre_id, bg.name "
-                                + "from books b "
-                                + "left join (select ba.author_id, ba.book_id, a.first_name, a.last_name "
-                                + "  from books_authors ba "
-                                + "  left join authors a on ba.author_id = a.author_id) ba "
-                                + "on b.book_id = ba.book_id "
-                                + "  left join (select bg.genre_id, bg.book_id, g.name "
-                                + "  from books_genres bg "
-                                + "left join genres g on bg.genre_id = g.genre_id) bg "
-                                + "on b.book_id = bg.book_id "
-                                + "where b.book_id = :id;",
+                        SELECT_BOOKS
+                                + "where b.book_id = :id",
                         Collections.singletonMap("id", id),
                         mapperProvider.mapper()
                 )
@@ -65,19 +67,7 @@ public class BookDaoJdbc implements BookDao {
     public List<Book> findAll() {
         return mergeBooks(
                 jdbc.query(
-                        "select "
-                                + "b.book_id, b.title, b.year, b.annotation, b.year, "
-                                + "ba.author_id, ba.first_name, ba.last_name, "
-                                + "bg.genre_id, bg.name "
-                                + "from books b "
-                                + "left join (select ba.author_id, ba.book_id, a.first_name, a.last_name "
-                                + "  from books_authors ba "
-                                + "  left join authors a on ba.author_id = a.author_id) ba "
-                                + "on b.book_id = ba.book_id "
-                                + "  left join (select bg.genre_id, bg.book_id, g.name "
-                                + "  from books_genres bg "
-                                + "left join genres g on bg.genre_id = g.genre_id) bg "
-                                + "on b.book_id = bg.book_id;",
+                        SELECT_BOOKS,
                         mapperProvider.mapper()
                 )
         );
