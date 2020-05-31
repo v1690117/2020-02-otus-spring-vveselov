@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @DisplayName("Authors DAO")
 @RunWith(SpringRunner.class)
 @JdbcTest
-@ComponentScan("com.v1690117.app.dao")
+@ComponentScan("com.v1690117.app.dao.jdbc")
 @ActiveProfiles("jdbc")
 class AuthorDaoJdbcTest {
     public static final int EXPECTED_ENTITIES_NUMBER = 24;

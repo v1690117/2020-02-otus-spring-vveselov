@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @DisplayName("Genres DAO")
 @RunWith(SpringRunner.class)
 @JdbcTest
-@ComponentScan("com.v1690117.app.dao")
+@ComponentScan("com.v1690117.app.dao.jdbc")
 @ActiveProfiles("jdbc")
 class GenreDaoTest {
     public static final int EXPECTED_ENTITIES_NUMBER = 10;

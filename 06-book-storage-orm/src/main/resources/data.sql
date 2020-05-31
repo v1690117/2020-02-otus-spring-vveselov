@@ -194,3 +194,8 @@ INSERT INTO books_genres
 VALUES (NULL, 12, 8);
 INSERT INTO books_genres
 VALUES (NULL, 13, 8);
+
+INSERT INTO book_comments
+VALUES (NULL, 2, 'This is the book');
+INSERT INTO book_comments
+VALUES (NULL, 3, 'This is another book');

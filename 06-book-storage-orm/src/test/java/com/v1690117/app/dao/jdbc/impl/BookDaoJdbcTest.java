@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Book DAO")
 @RunWith(SpringRunner.class)
 @JdbcTest
-@ComponentScan("com.v1690117.app.dao")
+@ComponentScan("com.v1690117.app.dao.jdbc")
 @ActiveProfiles("jdbc")
 class BookDaoJdbcTest {
     @Autowired

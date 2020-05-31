@@ -51,3 +51,14 @@ CREATE TABLE books_authors
         FOREIGN KEY (book_id)
             REFERENCES books (book_id)
 );
+
+DROP TABLE IF EXISTS book_comments;
+CREATE TABLE book_comments
+(
+    comment_id BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    book_id    BIGINT       NOT NULL,
+    text       VARCHAR(255) NOT NULL,
+    CONSTRAINT book_comments_book_id_fk
+        FOREIGN KEY (book_id)
+            REFERENCES books (book_id)
+);
