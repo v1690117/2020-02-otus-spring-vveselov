@@ -8,6 +8,7 @@ import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
 import com.v1690117.app.model.Genre;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 
@@ -19,8 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+
+@Profile("jdbc")
 @Repository
+@RequiredArgsConstructor
 public class BookDaoJdbc implements BookDao {
     private final BookGenresDao bookGenresDao;
     private final BookAuthorsDao bookAuthorsDao;

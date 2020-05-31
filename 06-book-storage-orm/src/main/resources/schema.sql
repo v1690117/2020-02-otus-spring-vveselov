@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS genres;
 CREATE TABLE genres
 (
-    genre_id INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    genre_id BIGINT      NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name     VARCHAR(20) NOT NULL,
     CONSTRAINT unique_name
         UNIQUE (name)
@@ -10,7 +10,7 @@ CREATE TABLE genres
 DROP TABLE IF EXISTS books;
 CREATE TABLE books
 (
-    book_id    INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    book_id    BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title      VARCHAR(100) NOT NULL,
     annotation VARCHAR(255),
     year       VARCHAR(4)
@@ -19,7 +19,7 @@ CREATE TABLE books
 DROP TABLE IF EXISTS authors;
 CREATE TABLE authors
 (
-    author_id  INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    author_id  BIGINT      NOT NULL AUTO_INCREMENT PRIMARY KEY,
     last_name  VARCHAR(20) NOT NULL,
     first_name VARCHAR(20)
 );
@@ -27,9 +27,9 @@ CREATE TABLE authors
 DROP TABLE IF EXISTS books_genres;
 CREATE TABLE books_genres
 (
-    id       INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    book_id  INT NOT NULL,
-    genre_id INT NOT NULL,
+    id       BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    book_id  BIGINT NOT NULL,
+    genre_id BIGINT NOT NULL,
     CONSTRAINT genres_genre_id_fk
         FOREIGN KEY (genre_id)
             REFERENCES genres (genre_id),
@@ -41,9 +41,9 @@ CREATE TABLE books_genres
 DROP TABLE IF EXISTS books_authors;
 CREATE TABLE books_authors
 (
-    id        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    book_id   INT NOT NULL,
-    author_id INT NOT NULL,
+    id        BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    book_id   BIGINT NOT NULL,
+    author_id BIGINT NOT NULL,
     CONSTRAINT authors_author_id_fk
         FOREIGN KEY (author_id)
             REFERENCES authors (author_id),

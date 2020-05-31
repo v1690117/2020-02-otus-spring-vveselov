@@ -4,6 +4,7 @@ import com.v1690117.app.dao.GenreDao;
 import com.v1690117.app.dao.jdbc.mappers.GenreMapperProvider;
 import com.v1690117.app.model.Genre;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
+@Profile("jdbc")
 public class GenreDaoJdbc implements GenreDao {
     private final NamedParameterJdbcOperations jdbc;
     private final GenreMapperProvider genreMapperProvider;

@@ -16,6 +16,8 @@ INSERT INTO genres
 VALUES (8, 'software development');
 INSERT INTO genres
 VALUES (9, 'opposition');
+INSERT INTO genres
+VALUES (10, 'testing');
 
 INSERT INTO authors
 VALUES (1, 'Fowler', 'Martin');
@@ -63,6 +65,8 @@ INSERT INTO authors
 VALUES (22, 'Beck', 'Kent');
 INSERT INTO authors
 VALUES (23, 'Roberts', 'Don');
+INSERT INTO authors
+VALUES (24, 'Test', 'Test');
 
 INSERT INTO books
 VALUES (1, 'Elegant Objects', ' ... Elegant Objects ...', '2016');

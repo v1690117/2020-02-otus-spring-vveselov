@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,14 +18,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @RunWith(SpringRunner.class)
 @JdbcTest
 @ComponentScan("com.v1690117.app.dao")
+@ActiveProfiles("jdbc")
 class AuthorDaoJdbcTest {
+    public static final int EXPECTED_ENTITIES_NUMBER = 24;
     @Autowired
     private AuthorDao dao;
 
     @DisplayName("Counts entities")
     @Test
     void count() {
-        assertThat(dao.count()).isEqualTo(23);
+        assertThat(dao.count()).isEqualTo(EXPECTED_ENTITIES_NUMBER);
     }
 
     @DisplayName("Finds entity by id")
@@ -40,7 +43,7 @@ class AuthorDaoJdbcTest {
         Author mFowler = new Author(1, "Martin", "Fowler");
         Author rMartin = new Author(10, "Robert", "Martin");
         assertThat(dao.findAll())
-                .hasSize(23)
+                .hasSize(EXPECTED_ENTITIES_NUMBER)
                 .contains(mFowler)
                 .contains(rMartin);
     }
@@ -48,19 +51,19 @@ class AuthorDaoJdbcTest {
     @DisplayName("Adds new entity")
     @Test
     void insert() {
-        Author expected = new Author(24, "Vladimir", "Veselov");
+        Author expected = new Author(25, "Vladimir", "Veselov");
         dao.insert(expected);
         assertThat(dao.findById(expected.getId())).isEqualToComparingFieldByField(expected);
-        assertThat(dao.count()).isEqualTo(24);
+        assertThat(dao.count()).isEqualTo(25);
     }
 
     @DisplayName("Updates entity")
     @Test
     void update() {
-        Author expected = new Author(24, "Vladimir", "Veselov");
+        Author expected = new Author(25, "Vladimir", "Veselov");
         dao.insert(expected);
-        dao.update(new Author(24, "Alexander", "Veselov"));
-        Author updated = dao.findById(24);
+        dao.update(new Author(25, "Alexander", "Veselov"));
+        Author updated = dao.findById(25);
         assertThat(updated)
                 .extracting(Author::getFirstName, Author::getLastName)
                 .containsExactly("Alexander", "Veselov");

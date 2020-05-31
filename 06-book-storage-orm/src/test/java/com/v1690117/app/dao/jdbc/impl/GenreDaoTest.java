@@ -1,5 +1,6 @@
-package com.v1690117.app.dao;
+package com.v1690117.app.dao.jdbc.impl;
 
+import com.v1690117.app.dao.GenreDao;
 import com.v1690117.app.model.Genre;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,14 +18,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @RunWith(SpringRunner.class)
 @JdbcTest
 @ComponentScan("com.v1690117.app.dao")
+@ActiveProfiles("jdbc")
 class GenreDaoTest {
+    public static final int EXPECTED_ENTITIES_NUMBER = 10;
     @Autowired
     private GenreDao dao;
 
     @DisplayName("Counts entities")
     @Test
     void count() {
-        assertThat(dao.count()).isEqualTo(9);
+        assertThat(dao.count()).isEqualTo(EXPECTED_ENTITIES_NUMBER);
     }
 
     @DisplayName("Finds entity by id")
@@ -38,14 +42,14 @@ class GenreDaoTest {
     void findAll() {
         Genre expected = new Genre(1, "drama");
         assertThat(dao.findAll())
-                .hasSize(9)
+                .hasSize(EXPECTED_ENTITIES_NUMBER)
                 .contains(expected);
     }
 
     @DisplayName("Adds new entity")
     @Test
     void insert() {
-        Genre expected = new Genre(10, "anything");
+        Genre expected = new Genre(11, "anything");
         dao.insert(expected);
         assertThat(dao.findById(expected.getId())).isEqualToComparingFieldByField(expected);
     }
