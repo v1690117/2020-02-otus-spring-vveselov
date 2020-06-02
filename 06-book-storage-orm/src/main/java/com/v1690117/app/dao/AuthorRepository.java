@@ -2,7 +2,6 @@ package com.v1690117.app.dao;
 
 import com.v1690117.app.model.Author;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,6 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @Transactional
-@Profile("hibernate")
 public class AuthorRepository implements AuthorDao {
     @PersistenceContext
     private final EntityManager manager;

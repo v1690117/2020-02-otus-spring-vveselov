@@ -7,13 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @Import(GenreRepository.class)
-@ActiveProfiles("hibernate")
 class GenreRepositoryTest {
     public static final int EXPECTED_ENTITIES_NUMBER = 10;
 
