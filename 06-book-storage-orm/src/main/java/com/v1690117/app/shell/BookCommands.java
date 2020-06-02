@@ -52,7 +52,6 @@ public class BookCommands {
             @ShellOption(defaultValue = "", value = {"--authors"}) long[] authors,
             @ShellOption(defaultValue = "", value = {"-g", "--genres"}) long[] genres
     ) {
-
         Book updated = bookService.update(
                 id,
                 title,

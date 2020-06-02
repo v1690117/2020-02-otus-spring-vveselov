@@ -21,12 +21,6 @@ class GenreRepositoryTest {
     @Autowired
     private GenreDao dao;
 
-    @DisplayName("Counts entities")
-    @Test
-    void count() {
-        assertThat(dao.count()).isEqualTo(EXPECTED_ENTITIES_NUMBER);
-    }
-
     @DisplayName("Finds entity by id")
     @Test
     void findById() {
@@ -46,11 +40,10 @@ class GenreRepositoryTest {
     @DisplayName("Adds new entity")
     @Test
     void insert() {
-        Genre expected = new Genre(11, "anything");
-        dao.insert(expected);
-        assertThat(
-                manager.find(Genre.class, 11L)
-        ).isEqualToComparingFieldByField(expected);
+        Genre expected = new Genre("anything");
+        Genre inserted = dao.insert(expected);
+        assertThat(manager.find(Genre.class, inserted.getId())
+        ).extracting(Genre::getName).isEqualTo(expected.getName());
     }
 
     @DisplayName("Updates entity")

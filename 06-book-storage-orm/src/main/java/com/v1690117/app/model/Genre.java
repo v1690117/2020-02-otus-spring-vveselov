@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.HashMap;
@@ -19,9 +21,15 @@ import java.util.Map;
 public class Genre {
     @Id
     @Column(name = "genre_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "name")
     private String name;
+
+    public Genre(String name) {
+        this(0, name);
+    }
 
     public Map<String, Object> map() {
         return new HashMap<String, Object>() {{

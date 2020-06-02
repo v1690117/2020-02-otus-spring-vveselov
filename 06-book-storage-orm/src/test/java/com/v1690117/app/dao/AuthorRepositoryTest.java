@@ -21,12 +21,6 @@ class AuthorRepositoryTest {
     @Autowired
     private AuthorDao dao;
 
-    @DisplayName("Counts entities")
-    @Test
-    void count() {
-        assertThat(dao.count()).isEqualTo(EXPECTED_ENTITIES_NUMBER);
-    }
-
     @DisplayName("Finds entity by id")
     @Test
     void findById() {
@@ -48,10 +42,9 @@ class AuthorRepositoryTest {
     @DisplayName("Adds new entity")
     @Test
     void insert() {
-        Author expected = dao.findById(dao.count() + 1);
-        expected = new Author(dao.count() + 1, "Vladimir", "Veselov");
-        dao.insert(expected);
-        assertThat(manager.find(Author.class, expected.getId())).isEqualToComparingFieldByField(expected);
+        Author expected = new Author("Vladimir", "Veselov");
+        Author inserted = dao.insert(expected);
+        assertThat(manager.find(Author.class, inserted.getId())).isEqualToComparingFieldByField(expected);
     }
 
     @DisplayName("Updates entity")

@@ -10,7 +10,7 @@ public interface AuthorService {
 
     Author findById(long id);
 
-    void insert(Author author);
+    Author insert(Author author);
 
     void update(Author author);
 

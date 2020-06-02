@@ -17,14 +17,6 @@ public class BookRepository implements BookDao {
     private final EntityManager manager;
 
     @Override
-    public long count() {
-        return manager.createQuery(
-                "select count(b) from Book b",
-                Long.class
-        ).getSingleResult();
-    }
-
-    @Override
     public Book findById(long id) {
         return manager.find(Book.class, id);
     }
@@ -38,8 +30,9 @@ public class BookRepository implements BookDao {
     }
 
     @Override
-    public void insert(Book book) {
+    public Book insert(Book book) {
         manager.persist(book);
+        return book;
     }
 
     @Override

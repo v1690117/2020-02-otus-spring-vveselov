@@ -46,12 +46,10 @@ public class DefaultGenreServiceTest {
     @Test
     void insert() {
         Genre inserting = getDrama();
-        given(dao.count()).willReturn(0L);
         service.insert(inserting);
         verify(dao, times(1)).insert(inserting);
 
         Genre anotherInserting = getOpposition();
-        given(dao.count()).willReturn(1L);
         service.insert(anotherInserting);
 
         assertThatThrownBy(

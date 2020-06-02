@@ -17,14 +17,6 @@ public class AuthorRepository implements AuthorDao {
     private final EntityManager manager;
 
     @Override
-    public long count() {
-        return manager.createQuery(
-                "select count(a) from Author a",
-                Long.class
-        ).getSingleResult();
-    }
-
-    @Override
     public Author findById(long id) {
         return manager.find(Author.class, id);
     }
@@ -38,8 +30,9 @@ public class AuthorRepository implements AuthorDao {
     }
 
     @Override
-    public void insert(Author author) {
+    public Author insert(Author author) {
         manager.persist(author);
+        return author;
     }
 
     @Override

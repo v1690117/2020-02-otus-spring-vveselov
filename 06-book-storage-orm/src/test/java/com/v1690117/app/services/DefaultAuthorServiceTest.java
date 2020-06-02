@@ -46,18 +46,15 @@ public class DefaultAuthorServiceTest {
     @Test
     void insert() {
         Author inserting = getPushkin();
-        given(dao.count()).willReturn(0L);
         service.insert(inserting);
         verify(dao, times(1)).insert(inserting);
 
         Author anotherInserting = getTolstoy();
-        given(dao.count()).willReturn(1L);
         service.insert(anotherInserting);
 
         assertThatThrownBy(
                 () -> service.insert(
                         new Author(
-                                100,
                                 null,
                                 null
                         )

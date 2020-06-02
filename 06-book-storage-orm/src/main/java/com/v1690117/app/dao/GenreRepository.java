@@ -17,14 +17,6 @@ public class GenreRepository implements GenreDao {
     private final EntityManager manager;
 
     @Override
-    public long count() {
-        return manager.createQuery(
-                "select count(g) from Genre g",
-                Long.class
-        ).getSingleResult();
-    }
-
-    @Override
     public Genre findById(long id) {
         return manager.find(Genre.class, id);
     }
@@ -38,8 +30,9 @@ public class GenreRepository implements GenreDao {
     }
 
     @Override
-    public void insert(Genre genre) {
+    public Genre insert(Genre genre) {
         manager.persist(genre);
+        return genre;
     }
 
     @Override

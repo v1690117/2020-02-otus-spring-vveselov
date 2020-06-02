@@ -10,13 +10,15 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,13 +31,18 @@ import java.util.stream.Collectors;
 public class Book {
     @Id
     @Column(name = "book_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "title", nullable = false)
     private String title;
+
     @Column(name = "annotation")
     private String annotation;
+
     @Column(name = "year")
     private String year;
+
     @Fetch(FetchMode.SUBSELECT)
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -45,6 +52,7 @@ public class Book {
             inverseJoinColumns = {@JoinColumn(name = "author_id")}
     )
     private List<Author> authors;
+
     @Fetch(FetchMode.SUBSELECT)
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -56,12 +64,35 @@ public class Book {
     private List<Genre> genres;
 
     public Book(Book book) {
-        this.id = book.getId();
-        this.title = book.getTitle();
-        this.annotation = book.getAnnotation();
-        this.year = book.getYear();
-        this.authors = new LinkedList<>(book.getAuthors());
-        this.genres = new LinkedList<>(book.getGenres());
+        this(
+                book.getId(),
+                book.getTitle(),
+                book.getAnnotation(),
+                book.getYear(),
+                book.getAuthors(),
+                book.getGenres()
+        );
+    }
+
+    public Book(String title, String annotation, String year, List<Author> authors, List<Genre> genres) {
+        this(
+                0,
+                title,
+                annotation,
+                year,
+                authors,
+                genres
+        );
+    }
+
+    public Book(String title, String annotation, String year) {
+        this(
+                title,
+                annotation,
+                year,
+                Collections.emptyList(),
+                Collections.emptyList()
+        );
     }
 
     public Map<String, Object> map() {

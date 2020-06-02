@@ -45,10 +45,8 @@ public class DefaultBookService implements BookService {
                     genreDao.findById(genreId)
             );
         }
-        long bookId = bookDao.count() + 1;
-        bookDao.insert(
+        return bookDao.insert(
                 new Book(
-                        bookDao.count() + 1,
                         title,
                         annotation,
                         year,
@@ -56,7 +54,6 @@ public class DefaultBookService implements BookService {
                         genreList
                 )
         );
-        return bookDao.findById(bookId);
     }
 
     @Override

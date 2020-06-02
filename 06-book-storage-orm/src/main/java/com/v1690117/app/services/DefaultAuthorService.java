@@ -23,16 +23,10 @@ public class DefaultAuthorService implements AuthorService {
     }
 
     @Override
-    public void insert(Author author) {
+    public Author insert(Author author) {
         if (author.getLastName() == null || author.getLastName().trim().isEmpty())
             throw new IllegalArgumentException("Last name can not be empty!");
-        authorDao.insert(
-                new Author(
-                        authorDao.count() + 1,
-                        author.getFirstName(),
-                        author.getLastName()
-                )
-        );
+        return authorDao.insert(author);
     }
 
     @Override

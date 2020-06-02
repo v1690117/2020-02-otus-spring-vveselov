@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -56,7 +57,6 @@ public class DefaultBookServiceTest {
     @Test
     void insert() {
         Book inserting = getFirstBook();
-        given(dao.count()).willReturn(0L);
         given(authorDao.findById(1L)).willReturn(inserting.getAuthors().get(0));
         given(genreDao.findById(1L)).willReturn(inserting.getGenres().get(0));
         service.insert(
@@ -66,7 +66,7 @@ public class DefaultBookServiceTest {
                 new long[]{inserting.getAuthors().get(0).getId()},
                 new long[]{inserting.getGenres().get(0).getId()}
         );
-        verify(dao, times(1)).insert(inserting);
+        verify(dao, times(1)).insert(any());
 
         assertThatThrownBy(
                 () -> service.insert(

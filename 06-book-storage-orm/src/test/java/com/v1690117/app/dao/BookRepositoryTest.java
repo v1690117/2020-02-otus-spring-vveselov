@@ -27,11 +27,6 @@ class BookRepositoryTest {
     private BookDao dao;
 
     @Test
-    void count() {
-        assertThat(dao.count()).isEqualTo(EXPECTED_ENTITIES_NUMBER);
-    }
-
-    @Test
     void findById() {
         Book expected = getFirstBook();
         assertThat(dao.findById(1)).
@@ -56,9 +51,21 @@ class BookRepositoryTest {
     @Test
     void insert() {
         Book testBook = getTestBook();
-        dao.insert(testBook);
-        assertThat(manager.find(Book.class, 14L))
-                .isNotNull().isEqualToComparingFieldByField(testBook);
+        Book inserted = dao.insert(testBook);
+        assertThat(manager.find(Book.class, inserted.getId()))
+                .isNotNull().extracting(
+                Book::getTitle,
+                Book::getAnnotation,
+                Book::getYear,
+                Book::getAuthors,
+                Book::getGenres
+        ).containsExactly(
+                testBook.getTitle(),
+                testBook.getAnnotation(),
+                testBook.getYear(),
+                testBook.getAuthors(),
+                testBook.getGenres()
+        );
     }
 
     @Test
@@ -92,7 +99,7 @@ class BookRepositoryTest {
     @Test
     void delete() {
         dao.delete(1);
-        assertThat(dao.count()).isEqualTo(12);
+        assertThat(manager.find(Book.class, 1L)).isNull();
     }
 
     private Book getFirstBook() {
@@ -115,7 +122,6 @@ class BookRepositoryTest {
         List<Genre> genres = new ArrayList<>();
         genres.add(getSoftwareDevelopment());
         return new Book(
-                14,
                 "Clean Agile: Back to Basics",
                 "Agile Values and Principles for a New Generation",
                 "2019",
