@@ -19,9 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
@@ -98,17 +96,6 @@ public class Book {
                 Collections.emptyList(),
                 Collections.emptyList()
         );
-    }
-
-    public Map<String, Object> map() {
-        return new HashMap<String, Object>() {{
-            put("id", id);
-            put("title", title);
-            put("annotation", annotation);
-            put("year", year);
-            put("authors", authors);
-            put("genres", genres);
-        }};
     }
 
     @Override

@@ -8,6 +8,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Author")
 class AuthorTest {
 
+    @DisplayName("Test constuctors")
+    @Test
+    void testConstuctors() {
+        assertThat(new Author()).isNotNull();
+        assertThat(new Author(1L)).isNotNull();
+        assertThat(new Author("Alexander", "Pushkin")).isNotNull();
+    }
+
     @DisplayName("Just to be sure it do something")
     @Test
     void testToString() {

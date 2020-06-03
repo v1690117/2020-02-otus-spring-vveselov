@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.HashMap;
-import java.util.Map;
 
 @Data
 @Entity
@@ -40,14 +38,6 @@ public class Author {
                 firstName,
                 lastName
         );
-    }
-
-    public Map<String, Object> map() {
-        return new HashMap<String, Object>() {{
-            put("id", id);
-            put("firstName", firstName);
-            put("lastName", lastName);
-        }};
     }
 
     @Override
