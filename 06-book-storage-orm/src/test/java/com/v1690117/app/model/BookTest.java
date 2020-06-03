@@ -15,7 +15,6 @@ class BookTest {
     void testToString() {
         assertThat(
                 new Book(
-                        1,
                         "title",
                         "annotation",
                         "2020",

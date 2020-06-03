@@ -11,14 +11,14 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional
 public class BookRepository implements BookDao {
     @PersistenceContext
     private final EntityManager manager;
 
     @Override
     public Book findById(long id) {
-        return manager.find(Book.class, id);
+        Book book = manager.find(Book.class, id);
+        return book;
     }
 
     @Override
@@ -30,17 +30,20 @@ public class BookRepository implements BookDao {
     }
 
     @Override
+    @Transactional
     public Book insert(Book book) {
         manager.persist(book);
         return book;
     }
 
     @Override
+    @Transactional
     public void update(Book book) {
         manager.merge(book);
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         manager.remove(
                 findById(id)

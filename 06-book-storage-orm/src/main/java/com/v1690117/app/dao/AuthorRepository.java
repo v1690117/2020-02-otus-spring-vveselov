@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional
 public class AuthorRepository implements AuthorDao {
     @PersistenceContext
     private final EntityManager manager;
@@ -30,17 +29,20 @@ public class AuthorRepository implements AuthorDao {
     }
 
     @Override
+    @Transactional
     public Author insert(Author author) {
         manager.persist(author);
         return author;
     }
 
     @Override
+    @Transactional
     public void update(Author author) {
         manager.merge(author);
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         manager.remove(findById(id));
     }

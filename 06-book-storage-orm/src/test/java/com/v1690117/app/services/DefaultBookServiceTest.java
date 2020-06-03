@@ -91,7 +91,9 @@ public class DefaultBookServiceTest {
                 null,
                 null,
                 null,
-                null);
+                null,
+                null
+        );
         verify(dao, times(1)).update(original);
     }
 
@@ -126,7 +128,8 @@ public class DefaultBookServiceTest {
                                 1,
                                 "testing"
                         )
-                )
+                ),
+                Collections.emptyList()
         );
     }
 
@@ -148,7 +151,8 @@ public class DefaultBookServiceTest {
                                 2,
                                 "another testing genre"
                         )
-                )
+                ),
+                Collections.emptyList()
         );
     }
 }

@@ -5,17 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,9 +44,8 @@ public class Book {
     @Column(name = "year")
     private String year;
 
+    @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "books_authors",
             joinColumns = {@JoinColumn(name = "book_id")},
@@ -53,15 +53,18 @@ public class Book {
     )
     private List<Author> authors;
 
+    @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
-    @ManyToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "books_genres",
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "genre_id")}
     )
     private List<Genre> genres;
+
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "book")
+    private List<Comment> comments;
 
     public Book(Book book) {
         this(
@@ -70,7 +73,8 @@ public class Book {
                 book.getAnnotation(),
                 book.getYear(),
                 book.getAuthors(),
-                book.getGenres()
+                book.getGenres(),
+                book.getComments()
         );
     }
 
@@ -81,7 +85,8 @@ public class Book {
                 annotation,
                 year,
                 authors,
-                genres
+                genres,
+                Collections.emptyList()
         );
     }
 
@@ -109,7 +114,7 @@ public class Book {
     @Override
     public String toString() {
         return String.format(
-                "%d. '%s' (%s y.) by %s.\n%s.\n%s\n",
+                "%d. '%s' (%s y.) by %s.\n%s.\n%s\n%s\n______________________",
                 id,
                 title,
                 year,
@@ -119,7 +124,10 @@ public class Book {
                 genres.stream()
                         .map(Genre::toString)
                         .collect(Collectors.joining(", ")),
-                annotation
+                annotation,
+                comments.stream()
+                        .map(Comment::toString)
+                        .collect(Collectors.joining("\n"))
         );
     }
 }

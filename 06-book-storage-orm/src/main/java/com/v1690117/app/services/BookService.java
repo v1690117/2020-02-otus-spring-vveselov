@@ -12,7 +12,7 @@ public interface BookService {
 
     Book insert(String title, String annotation, String year, long[] authors, long[] genres);
 
-    Book update(long id, String title, String annotation, String year, long[] authors, long[] genres);
+    Book update(long id, String title, String annotation, String year, long[] authors, long[] genres, String comment);
 
     void delete(long id);
 }

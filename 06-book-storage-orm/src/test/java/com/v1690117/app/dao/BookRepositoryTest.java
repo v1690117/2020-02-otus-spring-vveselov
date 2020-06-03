@@ -78,7 +78,8 @@ class BookRepositoryTest {
                         replacement.getAnnotation(),
                         replacement.getYear(),
                         replacement.getAuthors(),
-                        replacement.getGenres()
+                        replacement.getGenres(),
+                        replacement.getComments()
                 )
         );
         assertThat(dao.findById(1))
@@ -114,7 +115,8 @@ class BookRepositoryTest {
                 Collections.singletonList(
                         getSecondAuthor()
                 ),
-                genres
+                genres,
+                Collections.emptyList()
         );
     }
 

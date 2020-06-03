@@ -25,17 +25,21 @@ public class Comment {
     private long id;
     @Column(name = "text", nullable = false)
     private String text;
+
     @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "book_id")
+    @JoinColumn(name = "book_id")
     private Book book;
+
+    public Comment(String text) {
+        this.text = text;
+    }
 
     @Override
     public String toString() {
         return String.format(
-                "%d) %s\n%s",
+                "%d) %s",
                 id,
-                text,
-                book.getTitle()
+                text
         );
     }
 }

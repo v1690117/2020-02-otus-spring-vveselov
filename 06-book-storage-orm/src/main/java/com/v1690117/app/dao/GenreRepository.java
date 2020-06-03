@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional
 public class GenreRepository implements GenreDao {
     @PersistenceContext
     private final EntityManager manager;
@@ -30,17 +29,20 @@ public class GenreRepository implements GenreDao {
     }
 
     @Override
+    @Transactional
     public Genre insert(Genre genre) {
         manager.persist(genre);
         return genre;
     }
 
     @Override
+    @Transactional
     public void update(Genre genre) {
         manager.merge(genre);
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         manager.remove(findById(id));
     }

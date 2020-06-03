@@ -30,6 +30,10 @@ public class Author {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    public Author(long id) {
+        this(id, null, null);
+    }
+
     public Author(String firstName, String lastName) {
         this(
                 0,

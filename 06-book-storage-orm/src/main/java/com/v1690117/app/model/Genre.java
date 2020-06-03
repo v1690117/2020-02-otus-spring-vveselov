@@ -27,6 +27,10 @@ public class Genre {
     @Column(name = "name")
     private String name;
 
+    public Genre(long id) {
+        this(id, null);
+    }
+
     public Genre(String name) {
         this(0, name);
     }

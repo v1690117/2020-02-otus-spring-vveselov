@@ -50,7 +50,8 @@ public class BookCommands {
             @ShellOption(defaultValue = "", value = {"-a", "--annotation"}) String annotation,
             @ShellOption(defaultValue = "", value = {"-y", "--year"}) String year,
             @ShellOption(defaultValue = "", value = {"--authors"}) long[] authors,
-            @ShellOption(defaultValue = "", value = {"-g", "--genres"}) long[] genres
+            @ShellOption(defaultValue = "", value = {"-g", "--genres"}) long[] genres,
+            @ShellOption(defaultValue = "", value = {"-c", "--comment"}) String comment
     ) {
         Book updated = bookService.update(
                 id,
@@ -58,7 +59,8 @@ public class BookCommands {
                 annotation,
                 year,
                 authors,
-                genres
+                genres,
+                comment
         );
         System.out.println(
                 String.format(
