@@ -87,12 +87,12 @@ public class DefaultBookServiceTest {
         given(genreDao.findById(1L)).willReturn(original.getGenres().get(0));
         service.update(
                 1,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
+                "Test title",
+                "Test annotation",
+                "2020",
+                new long[]{1L},
+                new long[]{1L},
+                "test comment"
         );
         verify(dao, times(1)).update(original);
     }
@@ -111,25 +111,18 @@ public class DefaultBookServiceTest {
     }
 
     private Book getFirstBook() {
+        List<Author> authors = new LinkedList<>();
+        authors.add(new Author(1, "Petr", "Ivanov"));
+        List<Genre> genres = new LinkedList<>();
+        genres.add(new Genre(1, "testing"));
         return new Book(
                 1,
                 "Test",
                 "Just test book",
                 "2020",
-                Collections.singletonList(
-                        new Author(
-                                1,
-                                "Petr",
-                                "Ivanov"
-                        )
-                ),
-                Collections.singletonList(
-                        new Genre(
-                                1,
-                                "testing"
-                        )
-                ),
-                Collections.emptyList()
+                authors,
+                genres,
+                new LinkedList<>()
         );
     }
 
