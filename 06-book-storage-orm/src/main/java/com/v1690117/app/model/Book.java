@@ -64,18 +64,6 @@ public class Book {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "book")
     private List<Comment> comments;
 
-    public Book(Book book) {
-        this(
-                book.getId(),
-                book.getTitle(),
-                book.getAnnotation(),
-                book.getYear(),
-                book.getAuthors(),
-                book.getGenres(),
-                book.getComments()
-        );
-    }
-
     public Book(String title, String annotation, String year, List<Author> authors, List<Genre> genres) {
         this(
                 null,
