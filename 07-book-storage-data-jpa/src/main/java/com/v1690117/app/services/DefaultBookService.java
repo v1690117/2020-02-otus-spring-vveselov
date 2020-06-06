@@ -27,8 +27,10 @@ public class DefaultBookService implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Book findById(long id) {
         Book book = bookRepository.findById(id).get();
+        book.getComments().size(); // lazy field initialization
         return book;
     }
 
