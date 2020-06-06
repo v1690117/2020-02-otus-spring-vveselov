@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +15,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(BookRepository.class)
 class BookRepositoryTest {
     public static final int EXPECTED_ENTITIES_NUMBER = 13;
 
@@ -24,12 +22,12 @@ class BookRepositoryTest {
     private TestEntityManager manager;
 
     @Autowired
-    private BookDao dao;
+    private BookRepository dao;
 
     @Test
     void findById() {
         Book expected = getFirstBook();
-        assertThat(dao.findById(1)).
+        assertThat(dao.findById(1L).get()).
                 extracting(
                         Book::getTitle,
                         Book::getAnnotation,
@@ -51,7 +49,7 @@ class BookRepositoryTest {
     @Test
     void insert() {
         Book testBook = getTestBook();
-        Book inserted = dao.insert(testBook);
+        Book inserted = dao.save(testBook);
         assertThat(manager.find(Book.class, inserted.getId()))
                 .isNotNull().extracting(
                 Book::getTitle,
@@ -71,7 +69,7 @@ class BookRepositoryTest {
     @Test
     void update() {
         Book replacement = getTestBook();
-        dao.update(
+        dao.save(
                 new Book(
                         1L,
                         replacement.getTitle(),
@@ -82,7 +80,7 @@ class BookRepositoryTest {
                         replacement.getComments()
                 )
         );
-        assertThat(dao.findById(1))
+        assertThat(dao.findById(1L).get())
                 .extracting(
                         Book::getId,
                         Book::getTitle,
@@ -99,7 +97,8 @@ class BookRepositoryTest {
 
     @Test
     void delete() {
-        dao.delete(1);
+        Book book = manager.find(Book.class, 1L);
+        dao.delete(book);
         assertThat(manager.find(Book.class, 1L)).isNull();
     }
 

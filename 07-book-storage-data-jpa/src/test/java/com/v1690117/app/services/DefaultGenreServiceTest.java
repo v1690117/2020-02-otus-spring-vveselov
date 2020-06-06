@@ -1,7 +1,9 @@
 package com.v1690117.app.services;
 
 import com.v1690117.app.Application;
-import com.v1690117.app.dao.GenreDao;
+import com.v1690117.app.dao.AuthorRepository;
+import com.v1690117.app.dao.BookRepository;
+import com.v1690117.app.dao.GenreRepository;
 import com.v1690117.app.model.Genre;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,9 +13,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -22,9 +26,16 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest(classes = Application.class)
 public class DefaultGenreServiceTest {
     @MockBean
-    private GenreDao dao;
+    private GenreRepository dao;
     @Autowired
     private GenreService service;
+
+    // todo temp decision because of jpaMapping IllegalArgumentException
+    @MockBean
+    private BookRepository bookRepository;
+    // todo temp decision because of jpaMapping IllegalArgumentException
+    @MockBean
+    private AuthorRepository authorRepository;
 
     @Test
     void findAll() {
@@ -38,7 +49,7 @@ public class DefaultGenreServiceTest {
     @Test
     void findById() {
         Genre expected = getDrama();
-        given(dao.findById(1)).willReturn(expected);
+        given(dao.findById(1L)).willReturn(Optional.of(expected));
         assertThat(service.findById(1)).isNotNull()
                 .isEqualToComparingFieldByField(expected);
     }
@@ -47,7 +58,7 @@ public class DefaultGenreServiceTest {
     void insert() {
         Genre inserting = getDrama();
         service.insert(inserting);
-        verify(dao, times(1)).insert(inserting);
+        verify(dao, times(1)).save(inserting);
 
         Genre anotherInserting = getOpposition();
         service.insert(anotherInserting);
@@ -65,13 +76,13 @@ public class DefaultGenreServiceTest {
     @Test
     void update() {
         Genre original = getDrama();
-        given(dao.findById(1)).willReturn(original);
+        given(dao.findById(1L)).willReturn(Optional.of(original));
         Genre updating = new Genre(
                 1L,
                 "comedy"
         );
         service.update(updating);
-        verify(dao, times(1)).update(updating);
+        verify(dao, times(1)).save(updating);
 
         service.update(
                 new Genre(
@@ -79,15 +90,17 @@ public class DefaultGenreServiceTest {
                         null
                 )
         );
-        verify(dao, times(1)).update(
+        verify(dao, times(1)).save(
                 original
         );
     }
 
     @Test
     void delete() {
-        service.delete(1);
-        verify(dao, times(1)).delete(1);
+        Genre expected = getDrama();
+        given(dao.findById(1L)).willReturn(Optional.of(expected));
+        service.delete(1L);
+        verify(dao, times(1)).delete(any());
     }
 
     public List<Genre> getTestGenres() {

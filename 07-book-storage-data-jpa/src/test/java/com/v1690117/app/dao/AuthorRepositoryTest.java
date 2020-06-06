@@ -6,12 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(AuthorRepository.class)
 class AuthorRepositoryTest {
     public static final int EXPECTED_ENTITIES_NUMBER = 24;
 
@@ -19,13 +17,13 @@ class AuthorRepositoryTest {
     private TestEntityManager manager;
 
     @Autowired
-    private AuthorDao dao;
+    private AuthorRepository authorRepository;
 
     @DisplayName("Finds entity by id")
     @Test
     void findById() {
         Author expected = new Author(1L, "Martin", "Fowler");
-        assertThat(dao.findById(1)).isEqualToComparingFieldByField(expected);
+        assertThat(authorRepository.findById(1L).get()).isEqualToComparingFieldByField(expected);
     }
 
     @DisplayName("Finds all entities")
@@ -33,7 +31,7 @@ class AuthorRepositoryTest {
     void findAll() {
         Author mFowler = new Author(1L, "Martin", "Fowler");
         Author rMartin = new Author(10L, "Robert", "Martin");
-        assertThat(dao.findAll())
+        assertThat(authorRepository.findAll())
                 .hasSize(EXPECTED_ENTITIES_NUMBER)
                 .contains(mFowler)
                 .contains(rMartin);
@@ -43,7 +41,7 @@ class AuthorRepositoryTest {
     @Test
     void insert() {
         Author expected = new Author("Vladimir", "Veselov");
-        Author inserted = dao.insert(expected);
+        Author inserted = authorRepository.save(expected);
         assertThat(manager.find(Author.class, inserted.getId())).isEqualToComparingFieldByField(expected);
     }
 
@@ -51,7 +49,7 @@ class AuthorRepositoryTest {
     @Test
     void update() {
         long id = 24L;
-        dao.update(new Author(id, "Vladimir", "Veselov"));
+        authorRepository.save(new Author(id, "Vladimir", "Veselov"));
         Author updated = manager.find(Author.class, id);
         assertThat(updated)
                 .extracting(Author::getFirstName, Author::getLastName)
@@ -62,8 +60,9 @@ class AuthorRepositoryTest {
     @Test
     void delete() {
         long id = 24L;
-        assertThat(manager.find(Author.class, id)).isNotNull();
-        dao.delete(id);
+        Author actual = manager.find(Author.class, id);
+        assertThat(actual).isNotNull();
+        authorRepository.delete(actual);
         assertThat(manager.find(Author.class, id)).isNull();
     }
 }
