@@ -31,7 +31,7 @@ public class Book {
     @Id
     @Column(name = "book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -61,24 +61,12 @@ public class Book {
     private List<Genre> genres;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "book")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "book")
     private List<Comment> comments;
-
-    public Book(Book book) {
-        this(
-                book.getId(),
-                book.getTitle(),
-                book.getAnnotation(),
-                book.getYear(),
-                book.getAuthors(),
-                book.getGenres(),
-                book.getComments()
-        );
-    }
 
     public Book(String title, String annotation, String year, List<Author> authors, List<Genre> genres) {
         this(
-                0,
+                null,
                 title,
                 annotation,
                 year,
@@ -98,10 +86,20 @@ public class Book {
         );
     }
 
+    public String getPrintableInfo() {
+        return String.format(
+                "%s-------------------\n%s\n",
+                toString(),
+                comments.stream()
+                        .map(Comment::toString)
+                        .collect(Collectors.joining("\n"))
+        );
+    }
+
     @Override
     public String toString() {
         return String.format(
-                "%d. '%s' (%s y.) by %s.\n%s.\n%s\n%s\n______________________",
+                "%d. '%s' (%s y.) by %s.\n%s.\n%s\n",
                 id,
                 title,
                 year,
@@ -111,10 +109,7 @@ public class Book {
                 genres.stream()
                         .map(Genre::toString)
                         .collect(Collectors.joining(", ")),
-                annotation,
-                comments.stream()
-                        .map(Comment::toString)
-                        .collect(Collectors.joining("\n"))
+                annotation
         );
     }
 }

@@ -15,18 +15,6 @@ class BookTest {
         assertThat(new Book()).isNotNull();
         assertThat(
                 new Book(
-                        new Book(
-                                1,
-                                "title",
-                                "annotation",
-                                "2020",
-                                Collections.emptyList(),
-                                Collections.emptyList(),
-                                Collections.emptyList())
-                )
-        ).isNotNull();
-        assertThat(
-                new Book(
                         "title",
                         "annotation",
                         "2020"

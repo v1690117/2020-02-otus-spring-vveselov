@@ -67,7 +67,7 @@ public class DefaultAuthorServiceTest {
         Author original = getPushkin();
         given(dao.findById(1)).willReturn(original);
         Author expected = new Author(
-                1,
+                1L,
                 "Nikolay",
                 "Gogol"
         );
@@ -76,13 +76,13 @@ public class DefaultAuthorServiceTest {
 
         service.update(
                 new Author(
-                        1,
+                        1L,
                         null,
                         null
                 )
         );
         verify(dao, times(1)).update(new Author(
-                1,
+                1L,
                 original.getFirstName(),
                 original.getLastName()
         ));
@@ -107,7 +107,7 @@ public class DefaultAuthorServiceTest {
 
     private Author getPushkin() {
         return new Author(
-                1,
+                1L,
                 "Alexander",
                 "Pushkin"
         );
@@ -115,7 +115,7 @@ public class DefaultAuthorServiceTest {
 
     private Author getTolstoy() {
         return new Author(
-                2,
+                2L,
                 "Lev",
                 "Tolstoy"
         );

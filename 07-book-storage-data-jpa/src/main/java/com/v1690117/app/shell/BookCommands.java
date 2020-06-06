@@ -17,7 +17,7 @@ public class BookCommands {
         if (id == -1)
             bookService.findAll().forEach(System.out::println);
         else
-            System.out.println(bookService.findById(id));
+            System.out.println(bookService.findById(id).getPrintableInfo());
     }
 
     @ShellMethod(value = "Adds book", key = {"ab", "add book"})

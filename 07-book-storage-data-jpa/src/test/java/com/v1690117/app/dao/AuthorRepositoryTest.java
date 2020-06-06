@@ -24,15 +24,15 @@ class AuthorRepositoryTest {
     @DisplayName("Finds entity by id")
     @Test
     void findById() {
-        Author expected = new Author(1, "Martin", "Fowler");
+        Author expected = new Author(1L, "Martin", "Fowler");
         assertThat(dao.findById(1)).isEqualToComparingFieldByField(expected);
     }
 
     @DisplayName("Finds all entities")
     @Test
     void findAll() {
-        Author mFowler = new Author(1, "Martin", "Fowler");
-        Author rMartin = new Author(10, "Robert", "Martin");
+        Author mFowler = new Author(1L, "Martin", "Fowler");
+        Author rMartin = new Author(10L, "Robert", "Martin");
         assertThat(dao.findAll())
                 .hasSize(EXPECTED_ENTITIES_NUMBER)
                 .contains(mFowler)

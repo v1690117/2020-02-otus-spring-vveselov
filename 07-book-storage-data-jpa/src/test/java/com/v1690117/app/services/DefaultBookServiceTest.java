@@ -112,11 +112,11 @@ public class DefaultBookServiceTest {
 
     private Book getFirstBook() {
         List<Author> authors = new LinkedList<>();
-        authors.add(new Author(1, "Petr", "Ivanov"));
+        authors.add(new Author(1L, "Petr", "Ivanov"));
         List<Genre> genres = new LinkedList<>();
-        genres.add(new Genre(1, "testing"));
+        genres.add(new Genre(1L, "testing"));
         return new Book(
-                1,
+                1L,
                 "Test",
                 "Just test book",
                 "2020",
@@ -128,20 +128,20 @@ public class DefaultBookServiceTest {
 
     private Book getSecondBook() {
         return new Book(
-                1,
+                1L,
                 "Second Test",
                 "Just another test book",
                 "2021",
                 Collections.singletonList(
                         new Author(
-                                1,
+                                1L,
                                 "Petr",
                                 "Ivanov"
                         )
                 ),
                 Collections.singletonList(
                         new Genre(
-                                2,
+                                2L,
                                 "another testing genre"
                         )
                 ),

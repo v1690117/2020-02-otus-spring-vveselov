@@ -20,7 +20,7 @@ class GenreTest {
     void testToString() {
         assertThat(
                 new Genre(
-                        1,
+                        1L,
                         "Testing"
                 ).toString()
         ).isNotBlank();
