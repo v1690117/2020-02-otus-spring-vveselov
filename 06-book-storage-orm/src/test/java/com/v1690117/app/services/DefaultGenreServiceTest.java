@@ -55,7 +55,7 @@ public class DefaultGenreServiceTest {
         assertThatThrownBy(
                 () -> service.insert(
                         new Genre(
-                                100,
+                                100L,
                                 null
                         )
                 )
@@ -67,7 +67,7 @@ public class DefaultGenreServiceTest {
         Genre original = getDrama();
         given(dao.findById(1)).willReturn(original);
         Genre updating = new Genre(
-                1,
+                1L,
                 "comedy"
         );
         service.update(updating);
@@ -75,7 +75,7 @@ public class DefaultGenreServiceTest {
 
         service.update(
                 new Genre(
-                        1,
+                        1L,
                         null
                 )
         );
@@ -106,21 +106,21 @@ public class DefaultGenreServiceTest {
 
     private Genre getDrama() {
         return new Genre(
-                1,
+                1L,
                 "drama"
         );
     }
 
     private Genre getOpposition() {
         return new Genre(
-                9,
+                9L,
                 "opposition"
         );
     }
 
     private Genre getSoftwareDelopment() {
         return new Genre(
-                8,
+                8L,
                 "software development"
         );
     }

@@ -73,7 +73,7 @@ class BookRepositoryTest {
         Book replacement = getTestBook();
         dao.update(
                 new Book(
-                        1,
+                        1L,
                         replacement.getTitle(),
                         replacement.getAnnotation(),
                         replacement.getYear(),
@@ -108,7 +108,7 @@ class BookRepositoryTest {
         genres.add(getSoftwareDevelopment());
         genres.add(getOppositionGenre());
         return new Book(
-                1,
+                1L,
                 "Elegant Objects",
                 " ... Elegant Objects ...",
                 "2016",
@@ -136,7 +136,7 @@ class BookRepositoryTest {
 
     private Author getSecondAuthor() {
         return new Author(
-                2,
+                2L,
                 "Egor",
                 "Bugaenko"
         );
@@ -144,17 +144,17 @@ class BookRepositoryTest {
 
     private Author getTensAuthor() {
         return new Author(
-                10,
+                10L,
                 "Robert",
                 "Martin"
         );
     }
 
     private Genre getOppositionGenre() {
-        return new Genre(9, "opposition");
+        return new Genre(9L, "opposition");
     }
 
     private Genre getSoftwareDevelopment() {
-        return new Genre(8, "software development");
+        return new Genre(8L, "software development");
     }
 }

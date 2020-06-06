@@ -24,14 +24,14 @@ class GenreRepositoryTest {
     @DisplayName("Finds entity by id")
     @Test
     void findById() {
-        Genre expected = new Genre(1, "drama");
+        Genre expected = new Genre(1L, "drama");
         assertThat(dao.findById(1)).isEqualToComparingFieldByField(expected);
     }
 
     @DisplayName("Finds all entities")
     @Test
     void findAll() {
-        Genre expected = new Genre(1, "drama");
+        Genre expected = new Genre(1L, "drama");
         assertThat(dao.findAll())
                 .hasSize(EXPECTED_ENTITIES_NUMBER)
                 .contains(expected);

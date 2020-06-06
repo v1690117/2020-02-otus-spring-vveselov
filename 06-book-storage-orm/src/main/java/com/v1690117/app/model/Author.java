@@ -20,7 +20,7 @@ public class Author {
     @Id
     @Column(name = "author_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -34,7 +34,7 @@ public class Author {
 
     public Author(String firstName, String lastName) {
         this(
-                0,
+                null,
                 firstName,
                 lastName
         );

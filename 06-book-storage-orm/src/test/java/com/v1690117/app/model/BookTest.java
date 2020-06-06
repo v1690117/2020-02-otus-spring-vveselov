@@ -16,7 +16,7 @@ class BookTest {
         assertThat(
                 new Book(
                         new Book(
-                                1,
+                                1L,
                                 "title",
                                 "annotation",
                                 "2020",

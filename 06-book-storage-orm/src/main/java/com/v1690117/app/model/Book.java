@@ -31,7 +31,7 @@ public class Book {
     @Id
     @Column(name = "book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -78,7 +78,7 @@ public class Book {
 
     public Book(String title, String annotation, String year, List<Author> authors, List<Genre> genres) {
         this(
-                0,
+                null,
                 title,
                 annotation,
                 year,

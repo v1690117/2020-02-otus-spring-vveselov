@@ -20,7 +20,7 @@ public class Genre {
     @Id
     @Column(name = "genre_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -30,7 +30,7 @@ public class Genre {
     }
 
     public Genre(String name) {
-        this(0, name);
+        this(null, name);
     }
 
     @Override

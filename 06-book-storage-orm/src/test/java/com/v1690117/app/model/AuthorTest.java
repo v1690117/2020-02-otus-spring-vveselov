@@ -21,7 +21,7 @@ class AuthorTest {
     void testToString() {
         assertThat(
                 new Author(
-                        1,
+                        1L,
                         "Mister",
                         "Tester"
                 ).toString()
