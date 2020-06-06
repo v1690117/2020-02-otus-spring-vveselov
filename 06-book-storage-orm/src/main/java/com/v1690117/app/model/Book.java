@@ -61,7 +61,7 @@ public class Book {
     private List<Genre> genres;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "book")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "book")
     private List<Comment> comments;
 
     public Book(String title, String annotation, String year, List<Author> authors, List<Genre> genres) {
@@ -86,10 +86,20 @@ public class Book {
         );
     }
 
+    public String getPrintableInfo() {
+        return String.format(
+                "%s-------------------\n%s\n",
+                toString(),
+                comments.stream()
+                        .map(Comment::toString)
+                        .collect(Collectors.joining("\n"))
+        );
+    }
+
     @Override
     public String toString() {
         return String.format(
-                "%d. '%s' (%s y.) by %s.\n%s.\n%s\n%s\n______________________",
+                "%d. '%s' (%s y.) by %s.\n%s.\n%s\n",
                 id,
                 title,
                 year,
@@ -99,10 +109,7 @@ public class Book {
                 genres.stream()
                         .map(Genre::toString)
                         .collect(Collectors.joining(", ")),
-                annotation,
-                comments.stream()
-                        .map(Comment::toString)
-                        .collect(Collectors.joining("\n"))
+                annotation
         );
     }
 }

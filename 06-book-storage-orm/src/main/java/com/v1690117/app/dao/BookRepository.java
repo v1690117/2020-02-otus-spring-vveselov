@@ -16,8 +16,10 @@ public class BookRepository implements BookDao {
     private final EntityManager manager;
 
     @Override
+    @Transactional(readOnly = true)
     public Book findById(long id) {
-        Book book = manager.find(Book.class, id);
+        Book book = manager.getReference(Book.class, id);
+        book.getComments().size(); // init lazy field
         return book;
     }
 

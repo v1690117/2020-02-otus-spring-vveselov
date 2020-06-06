@@ -9,6 +9,7 @@ import com.v1690117.app.model.Comment;
 import com.v1690117.app.model.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +29,6 @@ public class DefaultBookService implements BookService {
     @Override
     public Book findById(long id) {
         Book book = bookDao.findById(id);
-        book.getComments();
         return book;
     }
 
@@ -56,6 +56,7 @@ public class DefaultBookService implements BookService {
     }
 
     @Override
+    @Transactional
     public Book update(long id, String title, String annotation, String year, long[] authors, long[] genres, String comment) {
         Book book = bookDao.findById(id);
         if (title != null && !title.isEmpty())
