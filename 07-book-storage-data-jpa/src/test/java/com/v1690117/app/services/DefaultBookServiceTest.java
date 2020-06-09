@@ -1,9 +1,9 @@
 package com.v1690117.app.services;
 
 import com.v1690117.app.Application;
-import com.v1690117.app.dao.AuthorDao;
-import com.v1690117.app.dao.BookDao;
-import com.v1690117.app.dao.GenreDao;
+import com.v1690117.app.dao.AuthorRepository;
+import com.v1690117.app.dao.BookRepository;
+import com.v1690117.app.dao.GenreRepository;
 import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
 import com.v1690117.app.model.Genre;
@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -28,11 +29,11 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest(classes = Application.class)
 public class DefaultBookServiceTest {
     @MockBean
-    private BookDao dao;
+    private BookRepository dao;
     @MockBean
-    private AuthorDao authorDao;
+    private AuthorRepository authorRepository;
     @MockBean
-    private GenreDao genreDao;
+    private GenreRepository genreRepository;
 
     @Autowired
     private BookService service;
@@ -49,7 +50,7 @@ public class DefaultBookServiceTest {
     @Test
     void findById() {
         Book expected = getFirstBook();
-        given(dao.findById(1)).willReturn(expected);
+        given(dao.findById(1L)).willReturn(Optional.of(expected));
         assertThat(service.findById(1)).isNotNull()
                 .isEqualToComparingFieldByField(expected);
     }
@@ -57,8 +58,8 @@ public class DefaultBookServiceTest {
     @Test
     void insert() {
         Book inserting = getFirstBook();
-        given(authorDao.findById(1L)).willReturn(inserting.getAuthors().get(0));
-        given(genreDao.findById(1L)).willReturn(inserting.getGenres().get(0));
+        given(authorRepository.findById(1L)).willReturn(Optional.of(inserting.getAuthors().get(0)));
+        given(genreRepository.findById(1L)).willReturn(Optional.of(inserting.getGenres().get(0)));
         service.insert(
                 inserting.getTitle(),
                 inserting.getAnnotation(),
@@ -66,7 +67,7 @@ public class DefaultBookServiceTest {
                 new long[]{inserting.getAuthors().get(0).getId()},
                 new long[]{inserting.getGenres().get(0).getId()}
         );
-        verify(dao, times(1)).insert(any());
+        verify(dao, times(1)).save(any());
 
         assertThatThrownBy(
                 () -> service.insert(
@@ -82,9 +83,9 @@ public class DefaultBookServiceTest {
     @Test
     void update() {
         Book original = getFirstBook();
-        given(dao.findById(1)).willReturn(original);
-        given(authorDao.findById(1L)).willReturn(original.getAuthors().get(0));
-        given(genreDao.findById(1L)).willReturn(original.getGenres().get(0));
+        given(dao.findById(1L)).willReturn(Optional.of(original));
+        given(authorRepository.findById(1L)).willReturn(Optional.of(original.getAuthors().get(0)));
+        given(genreRepository.findById(1L)).willReturn(Optional.of(original.getGenres().get(0)));
         service.update(
                 1,
                 "Test title",
@@ -94,13 +95,15 @@ public class DefaultBookServiceTest {
                 new long[]{1L},
                 "test comment"
         );
-        verify(dao, times(1)).update(original);
+        verify(dao, times(1)).save(original);
     }
 
     @Test
     void delete() {
+        Book book = getFirstBook();
+        given(dao.findById(1L)).willReturn(Optional.of(book));
         service.delete(1);
-        verify(dao, times(1)).delete(1);
+        verify(dao, times(1)).delete(book);
     }
 
     public List<Book> getTestBooks() {

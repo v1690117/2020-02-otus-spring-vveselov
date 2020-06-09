@@ -6,12 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(GenreRepository.class)
 class GenreRepositoryTest {
     public static final int EXPECTED_ENTITIES_NUMBER = 10;
 
@@ -19,13 +17,13 @@ class GenreRepositoryTest {
     private TestEntityManager manager;
 
     @Autowired
-    private GenreDao dao;
+    private GenreRepository dao;
 
     @DisplayName("Finds entity by id")
     @Test
     void findById() {
         Genre expected = new Genre(1L, "drama");
-        assertThat(dao.findById(1)).isEqualToComparingFieldByField(expected);
+        assertThat(dao.findById(1L).get()).isEqualToComparingFieldByField(expected);
     }
 
     @DisplayName("Finds all entities")
@@ -41,7 +39,7 @@ class GenreRepositoryTest {
     @Test
     void insert() {
         Genre expected = new Genre("anything");
-        Genre inserted = dao.insert(expected);
+        Genre inserted = dao.save(expected);
         assertThat(manager.find(Genre.class, inserted.getId())
         ).extracting(Genre::getName).isEqualTo(expected.getName());
     }
@@ -49,9 +47,9 @@ class GenreRepositoryTest {
     @DisplayName("Updates entity")
     @Test
     void update() {
-        Genre first = dao.findById(1L);
+        Genre first = dao.findById(1L).get();
         assertThat(first.getName()).isEqualTo("drama");
-        dao.update(new Genre(first.getId(), "melodrama"));
+        dao.save(new Genre(first.getId(), "melodrama"));
         first = manager.find(Genre.class, 1L);
         assertThat(first.getName()).isEqualTo("melodrama");
     }
@@ -59,9 +57,10 @@ class GenreRepositoryTest {
     @DisplayName("Deletes entity")
     @Test
     void delete() {
-        assertThat(manager.find(Genre.class, 10L))
+        Genre genre = manager.find(Genre.class, 10L);
+        assertThat(genre)
                 .isNotNull();
-        dao.delete(10);
+        dao.delete(genre);
         assertThat(manager.find(Genre.class, 10L))
                 .isNull();
     }

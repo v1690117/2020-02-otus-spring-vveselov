@@ -1,6 +1,6 @@
 package com.v1690117.app.services;
 
-import com.v1690117.app.dao.AuthorDao;
+import com.v1690117.app.dao.AuthorRepository;
 import com.v1690117.app.model.Author;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,35 +10,35 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DefaultAuthorService implements AuthorService {
-    private final AuthorDao authorDao;
+    private final AuthorRepository authorRepository;
 
     @Override
     public List<Author> findAll() {
-        return authorDao.findAll();
+        return authorRepository.findAll();
     }
 
     @Override
     public Author findById(long id) {
-        return authorDao.findById(id);
+        return authorRepository.findById(id).get();
     }
 
     @Override
     public Author insert(Author author) {
         if (author.getLastName() == null || author.getLastName().trim().isEmpty())
             throw new IllegalArgumentException("Last name can not be empty!");
-        return authorDao.insert(author);
+        return authorRepository.save(author);
     }
 
     @Override
     public void update(Author given) {
-        Author existed = authorDao.findById(given.getId());
+        Author existed = authorRepository.findById(given.getId()).get();
         String firstName = given.getFirstName() == null ?
                 existed.getFirstName()
                 : given.getFirstName();
         String lastName = given.getLastName() == null ?
                 existed.getLastName()
                 : given.getLastName();
-        authorDao.update(
+        authorRepository.save(
                 new Author(
                         given.getId(),
                         firstName,
@@ -49,6 +49,8 @@ public class DefaultAuthorService implements AuthorService {
 
     @Override
     public void delete(long id) {
-        authorDao.delete(id);
+        authorRepository.delete(
+                authorRepository.findById(id).get()
+        );
     }
 }
