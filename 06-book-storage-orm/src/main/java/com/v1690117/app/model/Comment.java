@@ -9,36 +9,37 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "genres")
-@NoArgsConstructor
+@Table(name = "book_comments")
 @AllArgsConstructor
-public class Genre {
+@NoArgsConstructor
+public class Comment {
     @Id
-    @Column(name = "genre_id")
+    @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "text", nullable = false)
+    private String text;
 
-    @Column(name = "name")
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
 
-    public Genre(long id) {
-        this(id, null);
-    }
-
-    public Genre(String name) {
-        this(null, name);
+    public Comment(String text) {
+        this.text = text;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "%s (%d)",
-                name,
-                id
+                "%d) %s",
+                id,
+                text
         );
     }
 }

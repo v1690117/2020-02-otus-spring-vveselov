@@ -5,13 +5,11 @@ import com.v1690117.app.model.Genre;
 import java.util.List;
 
 public interface GenreDao {
-    long count();
-
     Genre findById(long id);
 
     List<Genre> findAll();
 
-    void insert(Genre genre);
+    Genre insert(Genre genre);
 
     void update(Genre genre);
 

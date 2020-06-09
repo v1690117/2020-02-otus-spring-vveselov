@@ -1,16 +1,13 @@
-package com.v1690117.app.dao.jdbc.impl;
+package com.v1690117.app.dao;
 
-import com.v1690117.app.dao.BookDao;
 import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
 import com.v1690117.app.model.Genre;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,39 +15,57 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Book DAO")
-@RunWith(SpringRunner.class)
-@JdbcTest
-@ComponentScan("com.v1690117.app.dao")
-class BookDaoJdbcTest {
+@DataJpaTest
+@Import(BookRepository.class)
+class BookRepositoryTest {
+    public static final int EXPECTED_ENTITIES_NUMBER = 13;
+
+    @Autowired
+    private TestEntityManager manager;
+
     @Autowired
     private BookDao dao;
 
     @Test
-    void count() {
-        assertThat(dao.count()).isEqualTo(13);
-    }
-
-    @Test
     void findById() {
         Book expected = getFirstBook();
-        assertThat(dao.findById(1)).isEqualToComparingFieldByField(expected);
+        assertThat(dao.findById(1)).
+                extracting(
+                        Book::getTitle,
+                        Book::getAnnotation,
+                        Book::getYear
+                )
+                .containsExactly(
+                        expected.getTitle(),
+                        expected.getAnnotation(),
+                        expected.getYear()
+                );
     }
 
     @Test
     void findAll() {
         assertThat(dao.findAll())
-                .hasSize(13)
-                .contains(getFirstBook());
+                .hasSize(EXPECTED_ENTITIES_NUMBER);
     }
 
     @Test
     void insert() {
         Book testBook = getTestBook();
-        dao.insert(testBook);
-        assertThat(dao.findAll())
-                .hasSize(14)
-                .contains(testBook);
+        Book inserted = dao.insert(testBook);
+        assertThat(manager.find(Book.class, inserted.getId()))
+                .isNotNull().extracting(
+                Book::getTitle,
+                Book::getAnnotation,
+                Book::getYear,
+                Book::getAuthors,
+                Book::getGenres
+        ).containsExactly(
+                testBook.getTitle(),
+                testBook.getAnnotation(),
+                testBook.getYear(),
+                testBook.getAuthors(),
+                testBook.getGenres()
+        );
     }
 
     @Test
@@ -58,12 +73,13 @@ class BookDaoJdbcTest {
         Book replacement = getTestBook();
         dao.update(
                 new Book(
-                        1,
+                        1L,
                         replacement.getTitle(),
                         replacement.getAnnotation(),
                         replacement.getYear(),
                         replacement.getAuthors(),
-                        replacement.getGenres()
+                        replacement.getGenres(),
+                        replacement.getComments()
                 )
         );
         assertThat(dao.findById(1))
@@ -71,48 +87,43 @@ class BookDaoJdbcTest {
                         Book::getId,
                         Book::getTitle,
                         Book::getAnnotation,
-                        Book::getYear,
-                        Book::getAuthors,
-                        Book::getGenres
+                        Book::getYear
                 )
                 .containsExactly(
                         1L,
                         replacement.getTitle(),
                         replacement.getAnnotation(),
-                        replacement.getYear(),
-                        replacement.getAuthors(),
-                        replacement.getGenres()
+                        replacement.getYear()
                 );
     }
 
     @Test
     void delete() {
         dao.delete(1);
-        assertThat(dao.count()).isEqualTo(12);
+        assertThat(manager.find(Book.class, 1L)).isNull();
     }
 
     private Book getFirstBook() {
         List<Genre> genres = new ArrayList<>();
         genres.add(getSoftwareDevelopment());
         genres.add(getOppositionGenre());
-        Book book = new Book(
-                1,
+        return new Book(
+                1L,
                 "Elegant Objects",
                 " ... Elegant Objects ...",
                 "2016",
                 Collections.singletonList(
                         getSecondAuthor()
                 ),
-                genres
+                genres,
+                Collections.emptyList()
         );
-        return book;
     }
 
     private Book getTestBook() {
         List<Genre> genres = new ArrayList<>();
         genres.add(getSoftwareDevelopment());
-        Book book = new Book(
-                14,
+        return new Book(
                 "Clean Agile: Back to Basics",
                 "Agile Values and Principles for a New Generation",
                 "2019",
@@ -121,12 +132,11 @@ class BookDaoJdbcTest {
                 ),
                 genres
         );
-        return book;
     }
 
     private Author getSecondAuthor() {
         return new Author(
-                2,
+                2L,
                 "Egor",
                 "Bugaenko"
         );
@@ -134,17 +144,17 @@ class BookDaoJdbcTest {
 
     private Author getTensAuthor() {
         return new Author(
-                10,
+                10L,
                 "Robert",
                 "Martin"
         );
     }
 
     private Genre getOppositionGenre() {
-        return new Genre(9, "opposition");
+        return new Genre(9L, "opposition");
     }
 
     private Genre getSoftwareDevelopment() {
-        return new Genre(8, "software development");
+        return new Genre(8L, "software development");
     }
 }

@@ -27,7 +27,6 @@ public class AuthorCommands {
     ) {
         authorService.insert(
                 new Author(
-                        -1,
                         firstName,
                         lastName
                 )

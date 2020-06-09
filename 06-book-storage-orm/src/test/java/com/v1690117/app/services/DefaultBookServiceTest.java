@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -56,7 +57,6 @@ public class DefaultBookServiceTest {
     @Test
     void insert() {
         Book inserting = getFirstBook();
-        given(dao.count()).willReturn(0L);
         given(authorDao.findById(1L)).willReturn(inserting.getAuthors().get(0));
         given(genreDao.findById(1L)).willReturn(inserting.getGenres().get(0));
         service.insert(
@@ -66,7 +66,7 @@ public class DefaultBookServiceTest {
                 new long[]{inserting.getAuthors().get(0).getId()},
                 new long[]{inserting.getGenres().get(0).getId()}
         );
-        verify(dao, times(1)).insert(inserting);
+        verify(dao, times(1)).insert(any());
 
         assertThatThrownBy(
                 () -> service.insert(
@@ -87,11 +87,13 @@ public class DefaultBookServiceTest {
         given(genreDao.findById(1L)).willReturn(original.getGenres().get(0));
         service.update(
                 1,
-                null,
-                null,
-                null,
-                null,
-                null);
+                "Test title",
+                "Test annotation",
+                "2020",
+                new long[]{1L},
+                new long[]{1L},
+                "test comment"
+        );
         verify(dao, times(1)).update(original);
     }
 
@@ -109,46 +111,41 @@ public class DefaultBookServiceTest {
     }
 
     private Book getFirstBook() {
+        List<Author> authors = new LinkedList<>();
+        authors.add(new Author(1L, "Petr", "Ivanov"));
+        List<Genre> genres = new LinkedList<>();
+        genres.add(new Genre(1L, "testing"));
         return new Book(
-                1,
+                1L,
                 "Test",
                 "Just test book",
                 "2020",
-                Collections.singletonList(
-                        new Author(
-                                1,
-                                "Petr",
-                                "Ivanov"
-                        )
-                ),
-                Collections.singletonList(
-                        new Genre(
-                                1,
-                                "testing"
-                        )
-                )
+                authors,
+                genres,
+                new LinkedList<>()
         );
     }
 
     private Book getSecondBook() {
         return new Book(
-                1,
+                1L,
                 "Second Test",
                 "Just another test book",
                 "2021",
                 Collections.singletonList(
                         new Author(
-                                1,
+                                1L,
                                 "Petr",
                                 "Ivanov"
                         )
                 ),
                 Collections.singletonList(
                         new Genre(
-                                2,
+                                2L,
                                 "another testing genre"
                         )
-                )
+                ),
+                Collections.emptyList()
         );
     }
 }

@@ -17,7 +17,7 @@ public class BookCommands {
         if (id == -1)
             bookService.findAll().forEach(System.out::println);
         else
-            System.out.println(bookService.findById(id));
+            System.out.println(bookService.findById(id).getPrintableInfo());
     }
 
     @ShellMethod(value = "Adds book", key = {"ab", "add book"})
@@ -50,16 +50,17 @@ public class BookCommands {
             @ShellOption(defaultValue = "", value = {"-a", "--annotation"}) String annotation,
             @ShellOption(defaultValue = "", value = {"-y", "--year"}) String year,
             @ShellOption(defaultValue = "", value = {"--authors"}) long[] authors,
-            @ShellOption(defaultValue = "", value = {"-g", "--genres"}) long[] genres
+            @ShellOption(defaultValue = "", value = {"-g", "--genres"}) long[] genres,
+            @ShellOption(defaultValue = "", value = {"-c", "--comment"}) String comment
     ) {
-
         Book updated = bookService.update(
                 id,
                 title,
                 annotation,
                 year,
                 authors,
-                genres
+                genres,
+                comment
         );
         System.out.println(
                 String.format(

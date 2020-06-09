@@ -24,7 +24,6 @@ public class GenreCommands {
     public void add(@ShellOption(value = {"-n", "--name"}) String name) {
         genreService.insert(
                 new Genre(
-                        -1,
                         name
                 )
         );

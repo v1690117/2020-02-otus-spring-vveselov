@@ -23,15 +23,10 @@ public class DefaultGenreService implements GenreService {
     }
 
     @Override
-    public void insert(Genre genre) {
+    public Genre insert(Genre genre) {
         if (genre.getName() == null || genre.getName().trim().isEmpty())
             throw new IllegalArgumentException("Name of the genre can not be empty!");
-        genreDao.insert(
-                new Genre(
-                        genreDao.count() + 1,
-                        genre.getName()
-                )
-        );
+        return genreDao.insert(genre);
     }
 
     @Override

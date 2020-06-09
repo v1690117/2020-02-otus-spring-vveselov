@@ -46,18 +46,15 @@ public class DefaultAuthorServiceTest {
     @Test
     void insert() {
         Author inserting = getPushkin();
-        given(dao.count()).willReturn(0L);
         service.insert(inserting);
         verify(dao, times(1)).insert(inserting);
 
         Author anotherInserting = getTolstoy();
-        given(dao.count()).willReturn(1L);
         service.insert(anotherInserting);
 
         assertThatThrownBy(
                 () -> service.insert(
                         new Author(
-                                100,
                                 null,
                                 null
                         )
@@ -70,7 +67,7 @@ public class DefaultAuthorServiceTest {
         Author original = getPushkin();
         given(dao.findById(1)).willReturn(original);
         Author expected = new Author(
-                1,
+                1L,
                 "Nikolay",
                 "Gogol"
         );
@@ -79,13 +76,13 @@ public class DefaultAuthorServiceTest {
 
         service.update(
                 new Author(
-                        1,
+                        1L,
                         null,
                         null
                 )
         );
         verify(dao, times(1)).update(new Author(
-                1,
+                1L,
                 original.getFirstName(),
                 original.getLastName()
         ));
@@ -110,7 +107,7 @@ public class DefaultAuthorServiceTest {
 
     private Author getPushkin() {
         return new Author(
-                1,
+                1L,
                 "Alexander",
                 "Pushkin"
         );
@@ -118,7 +115,7 @@ public class DefaultAuthorServiceTest {
 
     private Author getTolstoy() {
         return new Author(
-                2,
+                2L,
                 "Lev",
                 "Tolstoy"
         );

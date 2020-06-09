@@ -5,9 +5,11 @@ import com.v1690117.app.dao.BookDao;
 import com.v1690117.app.dao.GenreDao;
 import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
+import com.v1690117.app.model.Comment;
 import com.v1690117.app.model.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +28,8 @@ public class DefaultBookService implements BookService {
 
     @Override
     public Book findById(long id) {
-        return bookDao.findById(id);
+        Book book = bookDao.findById(id);
+        return book;
     }
 
     @Override
@@ -36,19 +39,13 @@ public class DefaultBookService implements BookService {
         List<Author> authorList = new LinkedList<>();
         List<Genre> genreList = new LinkedList<>();
         for (long authorId : authors) {
-            authorList.add(
-                    authorDao.findById(authorId)
-            );
+            authorList.add(authorDao.findById(authorId));
         }
         for (long genreId : genres) {
-            genreList.add(
-                    genreDao.findById(genreId)
-            );
+            genreList.add(genreDao.findById(genreId));
         }
-        long bookId = bookDao.count() + 1;
-        bookDao.insert(
+        return bookDao.insert(
                 new Book(
-                        bookDao.count() + 1,
                         title,
                         annotation,
                         year,
@@ -56,49 +53,39 @@ public class DefaultBookService implements BookService {
                         genreList
                 )
         );
-        return bookDao.findById(bookId);
     }
 
     @Override
-    public Book update(long id, String title, String annotation, String year, long[] authors, long[] genres) {
+    @Transactional
+    public Book update(long id, String title, String annotation, String year, long[] authors, long[] genres, String comment) {
         Book book = bookDao.findById(id);
-        if (title == null || title.isEmpty())
-            title = book.getTitle();
-        if (annotation == null || annotation.isEmpty())
-            annotation = book.getAnnotation();
-        if (year == null || year.isEmpty())
-            year = book.getYear();
-        List<Author> authorList = new LinkedList<>();
-        List<Genre> genreList = new LinkedList<>();
+        if (title != null && !title.isEmpty())
+            book.setTitle(title);
+        if (annotation != null && !annotation.isEmpty())
+            book.setAnnotation(annotation);
+        if (year != null && !year.isEmpty())
+            book.setYear(year);
         if (authors != null && authors.length > 0) {
+            List<Author> newAuthors = new LinkedList<>();
             for (long authorId : authors) {
-                authorList.add(
-                        authorDao.findById(authorId)
-                );
+                newAuthors.add(authorDao.findById(authorId));
             }
-        } else {
-            authorList.addAll(book.getAuthors());
+            book.setAuthors(newAuthors);
         }
         if (genres != null && genres.length > 0) {
+            List<Genre> newGenres = new LinkedList<>();
             for (long genreId : genres) {
-                genreList.add(
-                        genreDao.findById(genreId)
-                );
+                newGenres.add(genreDao.findById(genreId));
             }
-        } else {
-            genreList.addAll(book.getGenres());
+            book.setGenres(newGenres);
         }
-        bookDao.update(
-                new Book(
-                        id,
-                        title,
-                        annotation,
-                        year,
-                        authorList,
-                        genreList
-                )
-        );
-        return bookDao.findById(id);
+        if (comment != null && !comment.trim().isEmpty()) {
+            Comment cmt = new Comment(comment);
+            cmt.setBook(book);
+            book.getComments().add(cmt);
+        }
+        bookDao.update(book);
+        return book;
     }
 
     @Override
