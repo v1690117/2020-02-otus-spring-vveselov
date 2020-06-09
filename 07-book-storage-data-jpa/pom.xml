@@ -8,8 +8,8 @@
         <artifactId>spring-course</artifactId>
         <version>1.0.0</version>
     </parent>
-    <artifactId>06-book-storage-orm</artifactId>
-    <name>06-book-storage-orm</name>
+    <artifactId>07-book-storage-data-jpa</artifactId>
+    <name>07-book-storage-data-jpa</name>
     <description>Book storage app</description>
     <dependencies>
         <dependency>
