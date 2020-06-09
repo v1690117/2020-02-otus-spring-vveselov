@@ -19,6 +19,7 @@
     <modules>
         <module>01-tester</module>
         <module>05-book-storage</module>
+        <module>06-book-storage-orm</module>
     </modules>
     <build>
         <plugins>
