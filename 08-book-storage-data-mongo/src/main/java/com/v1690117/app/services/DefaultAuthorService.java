@@ -11,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DefaultAuthorService implements AuthorService {
     private final AuthorRepository authorRepository;
+    private final SequenceGeneratorService sequenceGenerator;
 
     @Override
     public List<Author> findAll() {
@@ -26,6 +27,7 @@ public class DefaultAuthorService implements AuthorService {
     public Author insert(Author author) {
         if (author.getLastName() == null || author.getLastName().trim().isEmpty())
             throw new IllegalArgumentException("Last name can not be empty!");
+        author.setId(sequenceGenerator.generateSequence(Author.SEQUENCE_NAME));
         return authorRepository.save(author);
     }
 

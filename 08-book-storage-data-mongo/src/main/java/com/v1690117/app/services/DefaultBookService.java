@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class DefaultBookService implements BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
+    private final SequenceGeneratorService sequenceGenerator;
 
     @Override
     public List<Book> findAll() {
@@ -48,11 +50,13 @@ public class DefaultBookService implements BookService {
         }
         return bookRepository.save(
                 new Book(
+                        sequenceGenerator.generateSequence(Book.SEQUENCE_NAME),
                         title,
                         annotation,
                         year,
                         authorList,
-                        genreList
+                        genreList,
+                        Collections.emptyList()
                 )
         );
     }
@@ -83,7 +87,7 @@ public class DefaultBookService implements BookService {
         }
         if (comment != null && !comment.trim().isEmpty()) {
             Comment cmt = new Comment(comment);
-            cmt.setBook(book);
+            cmt.setId(sequenceGenerator.generateSequence(Comment.SEQUENCE_NAME));
             book.getComments().add(cmt);
         }
         bookRepository.save(book);

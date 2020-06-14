@@ -3,65 +3,40 @@ package com.v1690117.app.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@Entity
-@Table(name = "books")
+@Document(collection = "books")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Book {
+    @Transient
+    public static final String SEQUENCE_NAME = "books_sequence";
+
     @Id
-    @Column(name = "book_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Field(name = "book_id")
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    @Field(name = "title")
     private String title;
 
-    @Column(name = "annotation")
+    @Field(name = "annotation")
     private String annotation;
 
-    @Column(name = "year")
+    @Field(name = "year")
     private String year;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    @JoinTable(
-            name = "books_authors",
-            joinColumns = {@JoinColumn(name = "book_id")},
-            inverseJoinColumns = {@JoinColumn(name = "author_id")}
-    )
     private List<Author> authors;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    @JoinTable(
-            name = "books_genres",
-            joinColumns = {@JoinColumn(name = "book_id")},
-            inverseJoinColumns = {@JoinColumn(name = "genre_id")}
-    )
     private List<Genre> genres;
 
-    @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "book")
     private List<Comment> comments;
 
     public Book(String title, String annotation, String year, List<Author> authors, List<Genre> genres) {
