@@ -2,6 +2,7 @@ package com.v1690117.app.services;
 
 import com.v1690117.app.dao.AuthorRepository;
 import com.v1690117.app.dao.BookRepository;
+import com.v1690117.app.dao.CommentRepository;
 import com.v1690117.app.dao.GenreRepository;
 import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
@@ -21,6 +22,7 @@ public class DefaultBookService implements BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
+    private final CommentRepository commentRepository;
     private final SequenceGeneratorService sequenceGenerator;
 
     @Override
@@ -88,6 +90,7 @@ public class DefaultBookService implements BookService {
         if (comment != null && !comment.trim().isEmpty()) {
             Comment cmt = new Comment(comment);
             cmt.setId(sequenceGenerator.generateSequence(Comment.SEQUENCE_NAME));
+            commentRepository.save(cmt);
             book.getComments().add(cmt);
         }
         bookRepository.save(book);

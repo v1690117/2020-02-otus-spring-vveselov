@@ -1,3 +1,6 @@
 spring:
   banner:
     location: 'classpath:/banner.txt'
+  data:
+    mongodb:
+      database: books

@@ -3,6 +3,7 @@ package com.v1690117.app.services;
 import com.v1690117.app.Application;
 import com.v1690117.app.dao.AuthorRepository;
 import com.v1690117.app.dao.BookRepository;
+import com.v1690117.app.dao.CommentRepository;
 import com.v1690117.app.dao.GenreRepository;
 import com.v1690117.app.model.Genre;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +34,8 @@ public class DefaultGenreServiceTest {
     private BookRepository bookRepository;
     @MockBean
     private AuthorRepository authorRepository;
+    @MockBean
+    private CommentRepository commentRepository;
 
     @Test
     void findAll() {

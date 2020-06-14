@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -33,10 +34,13 @@ public class Book {
     @Field(name = "year")
     private String year;
 
+    @DBRef
     private List<Author> authors;
 
+    @DBRef
     private List<Genre> genres;
 
+    @DBRef(lazy = true)
     private List<Comment> comments;
 
     public Book(String title, String annotation, String year, List<Author> authors, List<Genre> genres) {
