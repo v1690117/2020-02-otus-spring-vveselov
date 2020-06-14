@@ -69,7 +69,7 @@ public class DatabaseChangelog {
                         .append("year", "2016")
                         .append("genres", Collections.singletonList(
                                 new BasicDBObject()
-                                        .append("_id", 8L)
+                                        .append("_id", 5L)
                                         .append("name", "software development")
                         ))
                         .append("authors", Collections.singletonList(
