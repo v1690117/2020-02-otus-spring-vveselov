@@ -1,10 +1,11 @@
 package com.v1690117.app.bee.changelog;
 
-import com.github.mongobee.changeset.ChangeLog;
-import com.github.mongobee.changeset.ChangeSet;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
+import com.github.cloudyrock.mongock.ChangeLog;
+import com.github.cloudyrock.mongock.ChangeSet;
+import com.v1690117.app.model.Author;
+import com.v1690117.app.model.Book;
+import com.v1690117.app.model.Genre;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.Collections;
 
@@ -12,73 +13,45 @@ import java.util.Collections;
 public class DatabaseChangelog {
 
     @ChangeSet(order = "001", id = "addGenres", author = "v1690117")
-    public void insertGenres(DB db) {
-        DBCollection myCollection = db.getCollection("genres");
-        myCollection.insert(
-                new BasicDBObject()
-                        .append("_id", 1L)
-                        .append("name", "drama")
-        );
-        myCollection.insert(
-                new BasicDBObject()
-                        .append("_id", 2L)
-                        .append("name", "comedy")
-        );
-        myCollection.insert(
-                new BasicDBObject()
-                        .append("_id", 3L)
-                        .append("name", "science")
-        );
-        myCollection.insert(
-                new BasicDBObject()
-                        .append("_id", 4L)
-                        .append("name", "scifi")
-        );
-        myCollection.insert(
-                new BasicDBObject()
-                        .append("_id", 5L)
-                        .append("name", "software development")
-        );
+    public void insertGenres(MongoTemplate mt) {
+        mt.save(new Genre(1L, "drama"));
+        mt.save(new Genre(2L, "comedy"));
+        mt.save(new Genre(3L, "science"));
+        mt.save(new Genre(3L, "scifi"));
+        mt.save(new Genre(8L, "software development"));
     }
 
     @ChangeSet(order = "002", id = "addAuthors", author = "v1690117")
-    public void insertAuthors(DB db) {
-        DBCollection myCollection = db.getCollection("authors");
-        myCollection.insert(
-                new BasicDBObject()
-                        .append("_id", 2L)
-                        .append("first_name", "Egor")
-                        .append("last_name", "Bugaenko")
-        );
-        myCollection.insert(
-                new BasicDBObject()
-                        .append("_id", 3L)
-                        .append("first_name", "Robert")
-                        .append("last_name", "Nystrom")
+    public void insertAuthors(MongoTemplate mt) {
+        mt.save(
+                new Author(
+                        2L,
+                        "Egor",
+                        "Bugaenko"
+                )
         );
     }
 
     @ChangeSet(order = "003", id = "addBooks", author = "v1690117")
-    public void insertBooks(DB db) {
-        DBCollection myCollection = db.getCollection("books");
-        myCollection.insert(
-                new BasicDBObject()
-                        .append("_id", 1L)
-                        .append("title", "Elegant Objects")
-                        .append("annotation", "... Elegant Objects ...")
-                        .append("year", "2016")
-                        .append("genres", Collections.singletonList(
-                                new BasicDBObject()
-                                        .append("_id", 5L)
-                                        .append("name", "software development")
-                        ))
-                        .append("authors", Collections.singletonList(
-                                new BasicDBObject()
-                                        .append("_id", 2L)
-                                        .append("first_name", "Egor")
-                                        .append("last_name", "Bugaenko")
-                        ))
-                        .append("comments", Collections.emptyList())
+    public void insertBooks(MongoTemplate mt) {
+        mt.save(
+                new Book(
+                        1L,
+                        "Elegant Objects",
+                        "... Elegant Objects ...",
+                        "2016",
+                        Collections.singletonList(
+                                new Author(
+                                        2L,
+                                        "Egor",
+                                        "Bugaenko"
+                                )
+                        ),
+                        Collections.singletonList(
+                                new Genre(8L, "software development")
+                        ),
+                        Collections.emptyList()
+                )
         );
     }
 }
