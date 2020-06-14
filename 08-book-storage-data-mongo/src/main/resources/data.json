@@ -1,0 +1,525 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "Elegant Objects",
+      "annotation": " ... Elegant Objects ...",
+      "year": "2016",
+      "authors": [
+        {
+          "id": 2,
+          "firstName": "Egor",
+          "lastName": "Bugaenko"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        },
+        {
+          "id": 9,
+          "name": "opposition"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 2,
+      "title": "Elegant Objects (Volume 2)",
+      "annotation": " ... Elegant Objects (Volume 2) ...",
+      "year": "2017",
+      "authors": [
+        {
+          "id": 2,
+          "firstName": "Egor",
+          "lastName": "Bugaenko"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        },
+        {
+          "id": 9,
+          "name": "opposition"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 3,
+      "title": "Code Ahead: Volume 1",
+      "annotation": " ... Code Ahead: Volume 1 ...",
+      "year": "2018",
+      "authors": [
+        {
+          "id": 2,
+          "firstName": "Egor",
+          "lastName": "Bugaenko"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        },
+        {
+          "id": 1,
+          "name": "drama"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 4,
+      "title": "Game Programming Patterns",
+      "annotation": " ... Game Programming Patterns ...",
+      "year": "2014",
+      "authors": [
+        {
+          "id": 3,
+          "firstName": "Robert",
+          "lastName": "Nystrom"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        },
+        {
+          "id": 7,
+          "name": "manual"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 5,
+      "title": "Design Patterns: Elements of Reusable Object-Oriented Software",
+      "annotation": " ... Design Patterns: Elements of Reusable Object-Oriented Software ...",
+      "year": "1994",
+      "authors": [
+        {
+          "id": 4,
+          "firstName": "Erich",
+          "lastName": "Gamma"
+        },
+        {
+          "id": 5,
+          "firstName": "Ralph",
+          "lastName": "Johnson"
+        },
+        {
+          "id": 6,
+          "firstName": "John",
+          "lastName": "Vlissides"
+        },
+        {
+          "id": 20,
+          "firstName": "Richard",
+          "lastName": "Helm"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        },
+        {
+          "id": 6,
+          "name": "horror"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 6,
+      "title": "Head First Design Patterns",
+      "annotation": " ... Head First Design Patterns ...",
+      "year": "2004",
+      "authors": [
+        {
+          "id": 7,
+          "firstName": "Eric",
+          "lastName": "Freeman"
+        },
+        {
+          "id": 8,
+          "firstName": "Kathy",
+          "lastName": "Sierra"
+        },
+        {
+          "id": 9,
+          "firstName": "Bert",
+          "lastName": "Bates"
+        },
+        {
+          "id": 21,
+          "firstName": "Elisabeth",
+          "lastName": "Robson"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        },
+        {
+          "id": 7,
+          "name": "manual"
+        },
+        {
+          "id": 2,
+          "name": "comedy"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 7,
+      "title": "Patterns of Enterprise Application Architecture",
+      "annotation": " ... Patterns of Enterprise Application Architecture ...",
+      "year": "2002",
+      "authors": [
+        {
+          "id": 1,
+          "firstName": "Martin",
+          "lastName": "Fowler"
+        },
+        {
+          "id": 14,
+          "firstName": "David",
+          "lastName": "Rice"
+        },
+        {
+          "id": 15,
+          "firstName": "Matthew",
+          "lastName": "Foemmel"
+        },
+        {
+          "id": 16,
+          "firstName": "Edward",
+          "lastName": "Hieatt"
+        },
+        {
+          "id": 17,
+          "firstName": "Robert",
+          "lastName": "Mee"
+        },
+        {
+          "id": 18,
+          "firstName": "Randy",
+          "lastName": "Stafford"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        },
+        {
+          "id": 6,
+          "name": "horror"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 8,
+      "title": "Clean Architecture",
+      "annotation": " ... Clean Architecture ...",
+      "year": "2017",
+      "authors": [
+        {
+          "id": 10,
+          "firstName": "Robert",
+          "lastName": "Martin"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 9,
+      "title": "Clean Code: A Handbook of Agile Software Craftsmanship",
+      "annotation": " ... Clean Code: A Handbook of Agile Software Craftsmanship ...",
+      "year": "2008",
+      "authors": [
+        {
+          "id": 10,
+          "firstName": "Robert",
+          "lastName": "Martin"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 10,
+      "title": "Effective Java Programming Language Guide",
+      "annotation": " ... Effective Java Programming Language Guide ...",
+      "year": "2001",
+      "authors": [
+        {
+          "id": 11,
+          "firstName": "Joshua",
+          "lastName": "Bloch"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 11,
+      "title": "Refactoring: Improving the Design of Existing Code",
+      "annotation": " ... Refactoring: Improving the Design of Existing Code ...",
+      "year": "1999",
+      "authors": [
+        {
+          "id": 1,
+          "firstName": "Martin",
+          "lastName": "Fowler"
+        },
+        {
+          "id": 22,
+          "firstName": "Kent",
+          "lastName": "Beck"
+        },
+        {
+          "id": 23,
+          "firstName": "Don",
+          "lastName": "Roberts"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 12,
+      "title": "Thinking in Java",
+      "annotation": " ... Thinking in Java ...",
+      "year": "2006",
+      "authors": [
+        {
+          "id": 13,
+          "firstName": "Bruce",
+          "lastName": "Eckel"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        }
+      ],
+      "comments": []
+    },
+    {
+      "id": 13,
+      "title": "Object Thinking",
+      "annotation": " ... Object Thinking ...",
+      "year": "2004",
+      "authors": [
+        {
+          "id": 12,
+          "firstName": "David",
+          "lastName": "West"
+        }
+      ],
+      "genres": [
+        {
+          "id": 8,
+          "name": "software development"
+        }
+      ],
+      "comments": []
+    }
+  ],
+  "authors": [
+    {
+      "id": 1,
+      "firstName": "Martin",
+      "lastName": "Fowler"
+    },
+    {
+      "id": 2,
+      "firstName": "Egor",
+      "lastName": "Bugaenko"
+    },
+    {
+      "id": 3,
+      "firstName": "Robert",
+      "lastName": "Nystrom"
+    },
+    {
+      "id": 4,
+      "firstName": "Erich",
+      "lastName": "Gamma"
+    },
+    {
+      "id": 5,
+      "firstName": "Ralph",
+      "lastName": "Johnson"
+    },
+    {
+      "id": 6,
+      "firstName": "John",
+      "lastName": "Vlissides"
+    },
+    {
+      "id": 7,
+      "firstName": "Eric",
+      "lastName": "Freeman"
+    },
+    {
+      "id": 8,
+      "firstName": "Kathy",
+      "lastName": "Sierra"
+    },
+    {
+      "id": 9,
+      "firstName": "Bert",
+      "lastName": "Bates"
+    },
+    {
+      "id": 10,
+      "firstName": "Robert",
+      "lastName": "Martin"
+    },
+    {
+      "id": 11,
+      "firstName": "Joshua",
+      "lastName": "Bloch"
+    },
+    {
+      "id": 12,
+      "firstName": "David",
+      "lastName": "West"
+    },
+    {
+      "id": 13,
+      "firstName": "Bruce",
+      "lastName": "Eckel"
+    },
+    {
+      "id": 14,
+      "firstName": "David",
+      "lastName": "Rice"
+    },
+    {
+      "id": 15,
+      "firstName": "Matthew",
+      "lastName": "Foemmel"
+    },
+    {
+      "id": 16,
+      "firstName": "Edward",
+      "lastName": "Hieatt"
+    },
+    {
+      "id": 17,
+      "firstName": "Robert",
+      "lastName": "Mee"
+    },
+    {
+      "id": 18,
+      "firstName": "Randy",
+      "lastName": "Stafford"
+    },
+    {
+      "id": 19,
+      "firstName": "Unkown",
+      "lastName": "Unkown"
+    },
+    {
+      "id": 20,
+      "firstName": "Richard",
+      "lastName": "Helm"
+    },
+    {
+      "id": 21,
+      "firstName": "Elisabeth",
+      "lastName": "Robson"
+    },
+    {
+      "id": 22,
+      "firstName": "Kent",
+      "lastName": "Beck"
+    },
+    {
+      "id": 23,
+      "firstName": "Don",
+      "lastName": "Roberts"
+    },
+    {
+      "id": 24,
+      "firstName": "Test",
+      "lastName": "Test"
+    }
+  ],
+  "genres": [
+    {
+      "id": 1,
+      "name": "drama"
+    },
+    {
+      "id": 2,
+      "name": "comedy"
+    },
+    {
+      "id": 3,
+      "name": "science"
+    },
+    {
+      "id": 4,
+      "name": "scifi"
+    },
+    {
+      "id": 5,
+      "name": "documental"
+    },
+    {
+      "id": 6,
+      "name": "horror"
+    },
+    {
+      "id": 7,
+      "name": "manual"
+    },
+    {
+      "id": 8,
+      "name": "software development"
+    },
+    {
+      "id": 9,
+      "name": "opposition"
+    },
+    {
+      "id": 10,
+      "name": "testing"
+    }
+  ]
+}
