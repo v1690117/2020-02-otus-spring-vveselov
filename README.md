@@ -11,3 +11,4 @@ List of homework tasks:
 5.  [Book storage with JDBC](./05-book-storage/README.md)  
 6.  [Book storage with ORM](./06-book-storage-orm/README.md)  
 7.  [Book storage with Spring Data JPA](./07-book-storage-data-jpa/README.md)  
+8.  [Book storage with Spring Data Mongo](./08-book-storage-data-mongo/README.md)  
