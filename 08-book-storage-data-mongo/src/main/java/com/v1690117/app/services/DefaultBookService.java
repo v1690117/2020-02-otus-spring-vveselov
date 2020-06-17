@@ -2,6 +2,7 @@ package com.v1690117.app.services;
 
 import com.v1690117.app.dao.AuthorRepository;
 import com.v1690117.app.dao.BookRepository;
+import com.v1690117.app.dao.CommentRepository;
 import com.v1690117.app.dao.GenreRepository;
 import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class DefaultBookService implements BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
+    private final CommentRepository commentRepository;
+    private final SequenceGeneratorService sequenceGenerator;
 
     @Override
     public List<Book> findAll() {
@@ -48,11 +52,13 @@ public class DefaultBookService implements BookService {
         }
         return bookRepository.save(
                 new Book(
+                        sequenceGenerator.generateSequence(Book.SEQUENCE_NAME),
                         title,
                         annotation,
                         year,
                         authorList,
-                        genreList
+                        genreList,
+                        Collections.emptyList()
                 )
         );
     }
@@ -83,7 +89,8 @@ public class DefaultBookService implements BookService {
         }
         if (comment != null && !comment.trim().isEmpty()) {
             Comment cmt = new Comment(comment);
-            cmt.setBook(book);
+            cmt.setId(sequenceGenerator.generateSequence(Comment.SEQUENCE_NAME));
+            commentRepository.save(cmt);
             book.getComments().add(cmt);
         }
         bookRepository.save(book);

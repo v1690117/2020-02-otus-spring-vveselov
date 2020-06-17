@@ -3,6 +3,7 @@ package com.v1690117.app.services;
 import com.v1690117.app.Application;
 import com.v1690117.app.dao.AuthorRepository;
 import com.v1690117.app.dao.BookRepository;
+import com.v1690117.app.dao.CommentRepository;
 import com.v1690117.app.dao.GenreRepository;
 import com.v1690117.app.model.Author;
 import com.v1690117.app.model.Book;
@@ -34,6 +35,8 @@ public class DefaultBookServiceTest {
     private AuthorRepository authorRepository;
     @MockBean
     private GenreRepository genreRepository;
+    @MockBean
+    private CommentRepository commentRepository;
 
     @Autowired
     private BookService service;

@@ -11,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DefaultGenreService implements GenreService {
     private final GenreRepository genreRepository;
+    private final SequenceGeneratorService sequenceGenerator;
 
     @Override
     public List<Genre> findAll() {
@@ -26,6 +27,7 @@ public class DefaultGenreService implements GenreService {
     public Genre insert(Genre genre) {
         if (genre.getName() == null || genre.getName().trim().isEmpty())
             throw new IllegalArgumentException("Name of the genre can not be empty!");
+        genre.setId(sequenceGenerator.generateSequence(Genre.SEQUENCE_NAME));
         return genreRepository.save(genre);
     }
 

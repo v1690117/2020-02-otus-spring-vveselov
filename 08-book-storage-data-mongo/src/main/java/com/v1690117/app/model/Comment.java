@@ -3,31 +3,26 @@ package com.v1690117.app.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
-@Entity
-@Table(name = "book_comments")
+@Document(collection = "book_comments")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment {
+    @Transient
+    public static final String SEQUENCE_NAME = "comments_sequence";
+
     @Id
-    @Column(name = "comment_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Field(name = "comment_id")
     private Long id;
-    @Column(name = "text", nullable = false)
+
+    @Field(name = "text")
     private String text;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
     private Book book;
 
     public Comment(String text) {
