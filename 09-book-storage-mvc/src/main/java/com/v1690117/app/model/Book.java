@@ -1,5 +1,6 @@
 package com.v1690117.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -86,6 +87,7 @@ public class Book {
         );
     }
 
+    @JsonIgnore
     public String getPrintableInfo() {
         return String.format(
                 "%s-------------------\n%s\n",

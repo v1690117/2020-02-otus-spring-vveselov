@@ -3,8 +3,11 @@ spring:
     location: 'classpath:/banner.txt'
   h2:
     console:
-      enabled: true
+      enabled: false
       path: '/h2'
+  spring:
+    thymeleaf:
+      cache=false:
   jpa:
     generate-ddl: false
     hibernate:

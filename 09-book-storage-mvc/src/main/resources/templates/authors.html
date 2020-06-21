@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+<!--/*@thymesVar id="author" type="com.v1690117.app.model.Author"*/-->
+<table class="table table-striped">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="author : ${authors}">
+        <th scope="row" th:text="${author.id}">1</th>
+        <td th:text="${author.firstName}">User</td>
+        <td th:text="${author.lastName}">Name</td>
+        <td>
+            <a th:href="@{/authors/{id}(id=${author.id})}" href="author.html">Details</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/authors}" th:method="post" action="authors.html" method="post">
+    <input name="firstName" type="text"/>
+    <input name="lastName" type="text"/>
+    <button class="btn btn-light" type="submit">New</button>
+</form>
+</body>
+</html>

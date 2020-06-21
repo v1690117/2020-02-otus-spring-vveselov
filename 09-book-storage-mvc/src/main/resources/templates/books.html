@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Storage - Books</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+<!--/*@thymesVar id="author" type="com.v1690117.app.model.Book"*/-->
+<table class="table table-striped">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Annotation</th>
+        <th scope="col">Year</th>
+        <th scope="col">Genres</th>
+        <th scope="col">Authors</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <th scope="row" th:text="${book.id}">1</th>
+        <td>
+            <a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.title}" href="book.html">
+                Harry Potter and smth
+            </a>
+        </td>
+        <td th:text="${book.annotation}">Book is about some boy with a scar</td>
+        <td th:text="${book.year}">1997</td>
+        <td>
+            <p th:each="genre : ${book.genres}">
+                <a th:text="${genre.name}"
+                   th:href="@{/genres/{id}(id=${genre.id})}">
+                    Comedy
+                </a>
+            </p>
+        </td>
+        <td>
+            <p th:each="author : ${book.authors}">
+                <a th:text="${author}"
+                   th:href="@{/authors/{id}(id=${author.id})}">
+                    Comedy
+                </a>
+            </p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/books}" th:method="post" action="books.html" method="post">
+    <input name="name" type="text"/>
+    <button class="btn btn-light" type="submit">New</button>
+</form>
+</body>
+</html>
