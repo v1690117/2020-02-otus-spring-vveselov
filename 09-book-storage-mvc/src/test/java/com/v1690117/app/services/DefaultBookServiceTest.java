@@ -86,15 +86,15 @@ public class DefaultBookServiceTest {
         given(dao.findById(1L)).willReturn(Optional.of(original));
         given(authorRepository.findById(1L)).willReturn(Optional.of(original.getAuthors().get(0)));
         given(genreRepository.findById(1L)).willReturn(Optional.of(original.getGenres().get(0)));
-        service.update(
-                1,
-                "Test title",
-                "Test annotation",
-                "2020",
-                new long[]{1L},
-                new long[]{1L},
-                "test comment"
-        );
+//        service.update( todo
+//                1,
+//                "Test title",
+//                "Test annotation",
+//                "2020",
+//                new long[]{1L},
+//                new long[]{1L},
+//                "test comment"
+//        );
         verify(dao, times(1)).save(original);
     }
 

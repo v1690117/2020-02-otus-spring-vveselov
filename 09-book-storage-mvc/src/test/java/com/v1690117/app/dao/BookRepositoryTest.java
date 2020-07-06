@@ -136,7 +136,7 @@ class BookRepositoryTest {
     private Author getSecondAuthor() {
         return new Author(
                 2L,
-                "Egor",
+                "Yegor",
                 "Bugaenko"
         );
     }

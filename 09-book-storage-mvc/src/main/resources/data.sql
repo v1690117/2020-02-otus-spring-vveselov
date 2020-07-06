@@ -22,7 +22,7 @@ VALUES (10, 'testing');
 INSERT INTO authors
 VALUES (1, 'Fowler', 'Martin');
 INSERT INTO authors
-VALUES (2, 'Bugaenko', 'Egor');
+VALUES (2, 'Bugaenko', 'Yegor');
 INSERT INTO authors
 VALUES (3, 'Nystrom', 'Robert');
 INSERT INTO authors
