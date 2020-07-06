@@ -2,34 +2,33 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Genres</title>
+    <link href="/static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
-<div th:insert="~{fragments/header :: header}"></div>
+<body class="page">
+<header th:replace="~{fragments/header :: header}"></header>
 <!--/*@thymesVar id="author" type="com.v1690117.app.model.Genre"*/-->
-<table class="table table-striped">
-    <thead class="thead-light">
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="genre : ${genres}">
-        <th scope="row" th:text="${genre.id}">1</th>
-        <td th:text="${genre.name}">Name</td>
-        <td>
-            <a th:href="@{/genres/{id}(id=${genre.id})}" href="genres.html">Details</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<form th:action="@{/genres}" th:method="post" action="genres.html" method="post">
-    <input name="name" type="text"/>
-    <button class="btn btn-light" type="submit">New</button>
-</form>
+<main class="main">
+    <table class="data-list">
+        <thead>
+        <tr class="thead-string">
+            <td class="cell-id">ID</td>
+            <td>Name</td>
+            <td>Actions</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="tbody-string" th:each="genre : ${genres}">
+            <td class="cell-id" th:text="${genre.id}">1</td>
+            <td th:text="${genre.name}">Testing</td>
+            <td class="actions">
+                <a href="genre.html" th:href="@{/genres/{id}(id=${genre.id})}">Details</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

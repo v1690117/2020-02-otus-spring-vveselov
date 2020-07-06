@@ -1,18 +1,18 @@
 <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" th:href="@{/authors}">Authors</a>
+    <header class="header">
+        <nav class="menu">
+            <ul class="menu-list">
+                <li class="menu-list-item">
+                    <a class="menu-link" href="authors.html" th:href="@{/authors}">Authors</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" th:href="@{/genres}">Genres</a>
+                <li class="menu-list-item">
+                    <a class="menu-link" href="books.html" th:href="@{/books}">Books</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" th:href="@{/books}">Books</a>
+                <li class="menu-list-item">
+                    <a class="menu-link" href="genres.html" th:href="@{/genres}">Genres</a>
                 </li>
             </ul>
-        </div>
-    </nav>
+        </nav>
+    </header>
 </th:block>
 

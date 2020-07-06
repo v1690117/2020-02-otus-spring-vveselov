@@ -2,21 +2,45 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title th:text="${book}">Title</title>
+    <link href="/static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
-<div th:insert="~{fragments/header :: header}"></div>
-<form th:action="@{/books}" th:method="post" action="books.html" method="post">
-    <!--/*@thymesVar id="genre" type="com.v1690117.app.model.Book"*/-->
-    <input class="form-control mr-sm-2" name="id" type="text" th:text="${book.id}" readonly="readonly"/>
-    <input class="form-control mr-sm-2" name="title" type="text" th:text="${book.title}"/>
-    <input class="form-control mr-sm-2" name="annotation" type="textarea" th:text="${book.annotation}"/>
-    <input class="form-control mr-sm-2" name="year" type="date" th:text="${book.year}"/>
-    <input class="form-control mr-sm-2" name="year" type="text" th:text="${book.authors}"/>
-    <input class="form-control mr-sm-2" name="year" type="text" th:text="${book.genres}"/>
-    <button type="submit" class="btn btn-outline-success">New</button>
-</form>
+<body class="page">
+<header th:replace="~{fragments/header :: header}"></header>
+<main class="main">
+    <form action="books.html" class="editing-form" method="post" th:action="@{/books/{id}(id=${book.id})}"
+          th:method="post">
+        <label class="editing-group">
+            <span class="input-title">ID</span>
+            <input class="editing" name="id" readonly="readonly" th:field="${book.id}" type="text">
+        </label>
+        <label class="editing-group">
+            <span class="input-title">Title</span>
+            <input class="editing input-name" name="title" placeholder="title" th:field="${book.title}" type="text">
+        </label>
+        <label class="editing-group">
+            <span class="input-title">Annotation</span>
+            <input class="editing input-name" name="annotation" placeholder="annotation" th:field="${book.annotation}"
+                   type="text">
+        </label>
+        <label class="editing-group">
+            <span class="input-title">Year</span>
+            <input class="editing input-name" name="year" placeholder="year" th:field="${book.year}" type="text">
+        </label>
+        <label class="editing-group">
+            <span class="input-title">Authors</span>
+            <input class="editing input-name" name="authors" placeholder="authors" th:field="${book.authors}"
+                   type="text">
+        </label>
+        <label class="editing-group">
+            <span class="input-title">Genres</span>
+            <input class="editing input-name" name="genres" placeholder="genres" th:field="${book.genres}" type="text">
+        </label>
+        <button class="reset-button" type="reset">Cancel</button>
+        <button class="submit-button" type="submit">Save</button>
+    </form>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

@@ -2,37 +2,40 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Authors</title>
+    <link href="/static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
-<div th:insert="~{fragments/header :: header}"></div>
+<body class="page">
+<header th:replace="~{fragments/header :: header}"></header>
 <!--/*@thymesVar id="author" type="com.v1690117.app.model.Author"*/-->
-<table class="table table-striped">
-    <thead class="thead-light">
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col">First Name</th>
-        <th scope="col">Last Name</th>
-        <th scope="col">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="author : ${authors}">
-        <th scope="row" th:text="${author.id}">1</th>
-        <td th:text="${author.firstName}">User</td>
-        <td th:text="${author.lastName}">Name</td>
-        <td>
-            <a th:href="@{/authors/{id}(id=${author.id})}" href="author.html">Details</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<form th:action="@{/authors}" th:method="post" action="authors.html" method="post">
-    <input name="firstName" type="text"/>
-    <input name="lastName" type="text"/>
-    <button class="btn btn-light" type="submit">New</button>
-</form>
+<main class="main">
+    <table class="data-list">
+        <thead>
+        <tr class="thead-string">
+            <td class="cell-id">ID</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Actions</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="tbody-string" th:each="author : ${authors}">
+            <td class="cell-id" th:text="${author.id}">1</td>
+            <td th:text="${author.firstName}">Martin</td>
+            <td th:text="${author.lastName}">Fowler</td>
+            <td class="actions">
+                <a href="author.html" th:href="@{/authors/{id}(id=${author.id})}">Details</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+<!--<form th:action="@{/authors}" th:method="post" action="authors.html" method="post">-->
+<!--    <input name="firstName" type="text"/>-->
+<!--    <input name="lastName" type="text"/>-->
+<!--    <button class="btn btn-light" type="submit">New</button>-->
+<!--</form>-->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>
