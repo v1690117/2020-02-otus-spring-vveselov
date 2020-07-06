@@ -34,7 +34,7 @@ public class BookController {
 
     @GetMapping("/books/{id}")
     public String getById(@PathVariable("id") long id, Model model) {
-        model.addAttribute("book", bookService.findById(id));
+        model.addAttribute("book", new BookDto(bookService.findById(id)));
         return "book";
     }
 
@@ -62,17 +62,11 @@ public class BookController {
         return "success";
     }
 
-//    @PostMapping("/books/{id}")
-//    public String update(BookDto book) {
-//        bookService.update(
-//                book.getId(),
-//                book.getTitle(),
-//                book.getAnnotation(),
-//                book.getYear(),
-//                book.getAuthors()
-//        );
-//        return "success";
-//    }
+    @PostMapping("/books/{id}")
+    public String update(BookDto book) {
+        bookService.update(book);
+        return "success";
+    }
 
     @DeleteMapping("/books/{id}")
     public String delete(@PathVariable("id") long id) {
