@@ -88,14 +88,7 @@ public class DefaultBookServiceTest {
         given(authorRepository.findById(1L)).willReturn(Optional.of(original.getAuthors().get(0)));
         given(genreRepository.findById(1L)).willReturn(Optional.of(original.getGenres().get(0)));
 
-        BookDto bookDto = new BookDto();
-        bookDto.setId(1L);
-        bookDto.setTitle("Test title");
-        bookDto.setAnnotation("Test annotation");
-        bookDto.setYear("2020");
-        bookDto.setAuthors(Collections.singletonList(1L));
-        bookDto.setGenres(Collections.singletonList(1L));
-        bookDto.setComments(Collections.singletonList("test comment"));
+        BookDto bookDto = prepareTestBookDto();
         service.update(bookDto);
         verify(dao, times(1)).save(original);
     }
@@ -152,5 +145,17 @@ public class DefaultBookServiceTest {
                 ),
                 Collections.emptyList()
         );
+    }
+
+    private BookDto prepareTestBookDto() {
+        BookDto bookDto = new BookDto();
+        bookDto.setId(1L);
+        bookDto.setTitle("Test title");
+        bookDto.setAnnotation("Test annotation");
+        bookDto.setYear("2020");
+        bookDto.setAuthors(Collections.singletonList(1L));
+        bookDto.setGenres(Collections.singletonList(1L));
+        bookDto.setComments(Collections.singletonList("test comment"));
+        return bookDto;
     }
 }
