@@ -23,6 +23,7 @@
         <module>07-book-storage-data-jpa</module>
         <module>08-book-storage-data-mongo</module>
         <module>09-book-storage-mvc</module>
+        <module>10-book-storage-spa</module>
     </modules>
     <build>
         <plugins>
