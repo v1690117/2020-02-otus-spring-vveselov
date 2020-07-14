@@ -43,6 +43,12 @@ public class GenreController {
         return genreService.findById(id);
     }
 
+    @GetMapping("/genres/new")
+    public String getCreationForm(Model model) {
+        model.addAttribute("genre", new Genre());
+        return "genre";
+    }
+
     @PostMapping("/genres")
     public String add(@RequestParam("name") String name) {
         genreService.insert(
@@ -64,6 +70,6 @@ public class GenreController {
     @DeleteMapping("/genres/{id}")
     public String delete(@PathVariable("id") long id) {
         genreService.delete(id);
-        return "deleted";
+        return "success";
     }
 }

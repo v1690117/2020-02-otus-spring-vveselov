@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title th:text="${author}">Title</title>
-    <link href="/static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
+<link>
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title th:text="${author.id == null ? 'Create author' : author.getLastName()}">Title</title>
+<link href="/static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}"/>
+<script th:src="@{/js/index.js}" type="text/javascript"></script>
 </head>
 <body class="page">
 <header th:replace="~{fragments/header :: header}"></header>
@@ -13,7 +14,7 @@
           th:method="post">
         <label class="editing-group">
             <span class="input-title">ID</span>
-            <input class="editing" name="id" readonly="readonly" th:field="${author.id}" type="text">
+            <input class="editing" id="id" name="id" readonly="readonly" th:field="${author.id}" type="text">
         </label>
         <label class="editing-group editing-name">
             <span class="input-title">First name</span>
@@ -26,6 +27,7 @@
                    type="text">
         </label>
         <button class="reset-button" type="reset">Cancel</button>
+        <button class="submit-button" onClick="onDelete()" th:hidden="${author.id==null}" type="button">Delete</button>
         <button class="submit-button" type="submit">Save</button>
     </form>
 </main>

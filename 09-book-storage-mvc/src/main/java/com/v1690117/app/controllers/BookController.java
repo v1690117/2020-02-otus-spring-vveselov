@@ -44,6 +44,12 @@ public class BookController {
         return bookService.findById(id);
     }
 
+    @GetMapping("/books/new")
+    public String getCreationForm(Model model) {
+        model.addAttribute("book", new BookDto());
+        return "book";
+    }
+
     @PostMapping("/books")
     public String add(
             @RequestParam("title") String title,
@@ -71,6 +77,6 @@ public class BookController {
     @DeleteMapping("/books/{id}")
     public String delete(@PathVariable("id") long id) {
         bookService.delete(id);
-        return "deleted";
+        return "success";
     }
 }

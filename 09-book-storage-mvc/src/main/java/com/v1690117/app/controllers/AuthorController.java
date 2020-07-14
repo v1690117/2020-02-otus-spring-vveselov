@@ -43,6 +43,12 @@ public class AuthorController {
         return authorService.findById(id);
     }
 
+    @GetMapping("/authors/new")
+    public String getCreationForm(Model model) {
+        model.addAttribute("author", new Author());
+        return "author";
+    }
+
     @PostMapping("/authors")
     public String add(
             @RequestParam("firstName") String firstName,
@@ -68,6 +74,6 @@ public class AuthorController {
     @DeleteMapping("/authors/{id}")
     public String delete(@PathVariable("id") long id) {
         authorService.delete(id);
-        return "deleted";
+        return "success";
     }
 }

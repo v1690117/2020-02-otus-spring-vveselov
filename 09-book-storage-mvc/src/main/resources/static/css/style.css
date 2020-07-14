@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -78,11 +77,8 @@ html {
     padding-right: 2rem;
 }
 
-/*TABLE_AUTHORS*/
-
 .data-list {
     width: 100%;
-
     border-collapse: collapse;
     border: 0;
 }
@@ -109,8 +105,6 @@ thead {
 .actions a {
     text-decoration: none;
 }
-
-/*DETAILS_FORM*/
 
 .editing-form {
     padding-top: 10rem;
@@ -156,4 +150,15 @@ button {
 
 .submit-button {
     margin-left: 2rem;
+}
+
+.toolbar {
+    height: 16px;
+}
+
+.data-container {
+    height: calc(100% - 16px);
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
