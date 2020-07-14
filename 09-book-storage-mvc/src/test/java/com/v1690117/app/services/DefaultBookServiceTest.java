@@ -1,6 +1,7 @@
 package com.v1690117.app.services;
 
 import com.v1690117.app.Application;
+import com.v1690117.app.BookDto;
 import com.v1690117.app.dao.AuthorRepository;
 import com.v1690117.app.dao.BookRepository;
 import com.v1690117.app.dao.GenreRepository;
@@ -86,15 +87,16 @@ public class DefaultBookServiceTest {
         given(dao.findById(1L)).willReturn(Optional.of(original));
         given(authorRepository.findById(1L)).willReturn(Optional.of(original.getAuthors().get(0)));
         given(genreRepository.findById(1L)).willReturn(Optional.of(original.getGenres().get(0)));
-//        service.update( todo
-//                1,
-//                "Test title",
-//                "Test annotation",
-//                "2020",
-//                new long[]{1L},
-//                new long[]{1L},
-//                "test comment"
-//        );
+
+        BookDto bookDto = new BookDto();
+        bookDto.setId(1L);
+        bookDto.setTitle("Test title");
+        bookDto.setAnnotation("Test annotation");
+        bookDto.setYear("2020");
+        bookDto.setAuthors(Collections.singletonList(1L));
+        bookDto.setGenres(Collections.singletonList(1L));
+        bookDto.setComments(Collections.singletonList("test comment"));
+        service.update(bookDto);
         verify(dao, times(1)).save(original);
     }
 
