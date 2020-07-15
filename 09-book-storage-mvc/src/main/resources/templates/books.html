@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Books</title>
+    <link href="/static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="page">
+<header th:replace="~{fragments/header :: header}"></header>
+<!--/*@thymesVar id="author" type="com.v1690117.app.model.Book"*/-->
+<main class="main">
+    <div class="toolbar">
+        <a th:href="@{/books/new}"
+           th:text="Add">
+            Add
+        </a>
+    </div>
+    <div class="data-container">
+        <table class="data-list">
+            <thead>
+            <tr class="thead-string">
+                <td class="cell-id">ID</td>
+                <td>Title</td>
+                <td>Annotation</td>
+                <td>Year</td>
+                <td>Genres</td>
+                <td>Authors</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="tbody-string" th:each="book : ${books}">
+                <td class="cell-id" th:text="${book.id}">1</td>
+                <td>
+                    <a href="book.html" th:href="@{/books/{id}(id=${book.id})}" th:text="${book.title}">
+                        Harry Potter and smth
+                    </a>
+                </td>
+                <td th:text="${book.annotation}">Book is about some boy with a scar</td>
+                <td th:text="${book.year}">1997</td>
+                <td>
+                    <p th:each="genre : ${book.genres}">
+                        <a th:href="@{/genres/{id}(id=${genre.id})}"
+                           th:text="${genre}">
+                            Comedy
+                        </a>
+                    </p>
+                </td>
+                <td>
+                    <p th:each="author : ${book.authors}">
+                        <a th:href="@{/authors/{id}(id=${author.id})}"
+                           th:text="${author}">
+                            Comedy
+                        </a>
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
