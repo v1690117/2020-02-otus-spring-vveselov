@@ -1,5 +1,6 @@
 package com.v1690117.app.services;
 
+import com.v1690117.app.BookDto;
 import com.v1690117.app.model.Book;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface BookService {
 
     Book insert(String title, String annotation, String year, long[] authors, long[] genres);
 
-    Book update(long id, String title, String annotation, String year, long[] authors, long[] genres, String comment);
+    Book update(BookDto bookDto);
 
     void delete(long id);
 }

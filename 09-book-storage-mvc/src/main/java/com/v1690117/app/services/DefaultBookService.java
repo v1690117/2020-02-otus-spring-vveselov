@@ -1,5 +1,6 @@
 package com.v1690117.app.services;
 
+import com.v1690117.app.BookDto;
 import com.v1690117.app.dao.AuthorRepository;
 import com.v1690117.app.dao.BookRepository;
 import com.v1690117.app.dao.GenreRepository;
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -59,32 +62,38 @@ public class DefaultBookService implements BookService {
 
     @Override
     @Transactional
-    public Book update(long id, String title, String annotation, String year, long[] authors, long[] genres, String comment) {
-        Book book = bookRepository.findById(id).get();
-        if (title != null && !title.isEmpty())
-            book.setTitle(title);
-        if (annotation != null && !annotation.isEmpty())
-            book.setAnnotation(annotation);
-        if (year != null && !year.isEmpty())
-            book.setYear(year);
-        if (authors != null && authors.length > 0) {
+    public Book update(BookDto bookDto) {
+        Book book = bookRepository.findById(bookDto.getId()).get();
+        if (bookDto.getTitle() != null && !bookDto.getTitle().isEmpty())
+            book.setTitle(bookDto.getTitle());
+        if (bookDto.getAnnotation() != null && !bookDto.getAnnotation().isEmpty())
+            book.setAnnotation(bookDto.getAnnotation());
+        if (bookDto.getYear() != null && !bookDto.getYear().isEmpty())
+            book.setYear(bookDto.getYear());
+        if (bookDto.getAuthors() != null && bookDto.getAuthors().size() > 0) {
             List<Author> newAuthors = new LinkedList<>();
-            for (long authorId : authors) {
+            for (long authorId : bookDto.getAuthors()) {
                 newAuthors.add(authorRepository.findById(authorId).get());
             }
             book.setAuthors(newAuthors);
         }
-        if (genres != null && genres.length > 0) {
+        if (bookDto.getGenres() != null && bookDto.getGenres().size() > 0) {
             List<Genre> newGenres = new LinkedList<>();
-            for (long genreId : genres) {
+            for (long genreId : bookDto.getGenres()) {
                 newGenres.add(genreRepository.findById(genreId).get());
             }
             book.setGenres(newGenres);
         }
-        if (comment != null && !comment.trim().isEmpty()) {
-            Comment cmt = new Comment(comment);
-            cmt.setBook(book);
-            book.getComments().add(cmt);
+
+        if (bookDto.getComments() != null) {
+            Set<String> existingComments = book.getComments().stream().map(c -> c.getText()).collect(Collectors.toSet());
+            for (String comment : bookDto.getComments()) {
+                if (!comment.trim().isEmpty() && !existingComments.contains(comment)) {
+                    Comment cmt = new Comment(comment);
+                    cmt.setBook(book);
+                    book.getComments().add(cmt);
+                }
+            }
         }
         bookRepository.save(book);
         return book;
