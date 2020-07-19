@@ -1,13 +1,27 @@
 import {useStyles} from "./Helpers.tsx";
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, ButtonGroup, TextField} from "@material-ui/core";
-import {FormProps} from "../interfaces/interfaces";
+import {FormProps, Genre} from "../interfaces/interfaces";
 
 export const GenreForm = (props: FormProps) => {
     const classes = useStyles();
     const [isLoading, setIsLoading] = useState(false);
     const [name, setName]: [string, Function] = useState();
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+            if (!loaded && props.objectId) {
+                props.request(`/genres/${props.objectId}.json`)
+                    .then((r: any) => r.json())
+                    .then((genre: Genre) => {
+                        setLoaded(true);
+                        setName(genre.name);
+                    })
+            }
+        },
+        [loaded]
+    );
     const create = () => {
         setIsLoading(true);
         props.request(
@@ -18,7 +32,7 @@ export const GenreForm = (props: FormProps) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name
+                    name: name.trim()
                 })
             }
         )
@@ -28,11 +42,33 @@ export const GenreForm = (props: FormProps) => {
             })
             .catch(() => setIsLoading(false))
     }
+    const update = () => {
+        setIsLoading(true);
+        props.request(
+            `/genres/${props.objectId}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: props.objectId,
+                    name: name.trim()
+                })
+            }
+        )
+            .then(() => {
+                props.onClose();
+                props.onDataChange();
+            })
+            .catch(() => setIsLoading(false))
+    };
 
     return <form className={classes.root} noValidate autoComplete="off">
         <div className={"form-input"}>
             <div>
                 <TextField id="name" label="Name" value={name}
+                           defaultValue={" "}
                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
                 />
             </div>
@@ -47,14 +83,25 @@ export const GenreForm = (props: FormProps) => {
                 >
                     Close
                 </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => create()}
-                    disabled={isLoading}
-                >
-                    Create
-                </Button>
+                {
+                    props.objectId ?
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => update()}
+                            disabled={isLoading}
+                        >
+                            Update
+                        </Button> :
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => create()}
+                            disabled={isLoading}
+                        >
+                            Create
+                        </Button>
+                }
             </ButtonGroup>
         </div>
     </form>

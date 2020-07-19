@@ -30,7 +30,7 @@ public class DefaultAuthorService implements AuthorService {
     }
 
     @Override
-    public void update(Author given) {
+    public Author update(Author given) {
         Author existed = authorRepository.findById(given.getId()).get();
         String firstName = given.getFirstName() == null ?
                 existed.getFirstName()
@@ -38,7 +38,7 @@ public class DefaultAuthorService implements AuthorService {
         String lastName = given.getLastName() == null ?
                 existed.getLastName()
                 : given.getLastName();
-        authorRepository.save(
+        return authorRepository.save(
                 new Author(
                         given.getId(),
                         firstName,

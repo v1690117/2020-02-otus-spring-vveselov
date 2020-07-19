@@ -5,7 +5,7 @@ import {CustomTable} from "./CustomTable.tsx";
 import {Author, Book, Config, Genre} from "../interfaces/interfaces";
 import {AppBar, CircularProgress, Drawer, Fab, Tab, Tabs} from "@material-ui/core";
 import Alert from '@material-ui/lab/Alert';
-import {a11yProps, TabPanel, useStyles} from "./Helpers.tsx";
+import {a11yProps, getRequest, TabPanel, useStyles} from "./Helpers.tsx";
 import {BookForm} from "./BookForm.tsx";
 import {AuthorForm} from "./AuthorForm.tsx";
 import {GenreForm} from "./GenreForm.tsx";
@@ -83,34 +83,26 @@ const tabs: { [any: number]: string } = {
 export default function App() {
     const classes = useStyles();
     const [tab, setTab] = React.useState('books');
-    const [objectId, setObjectId] = React.useState();
+    const [objectId, setObjectId]: [string, Function] = React.useState();
     const [formShown, setFormShown] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     const [errorMessage, setErrorMessage]: [string, Function] = useState();
     const [updateIndicator, setUpdateIndicator] = useState(Math.random);
 
-    const request = (input: RequestInfo, init?: RequestInit): Promise<Response> => Promise.resolve(setIsLoading(true))
-        .then(() => fetch(input, init))
-        .then(r => {
-            if (r.status >= 400) {
-                throw new Error(r.statusText);
-            }
-            setIsLoading(false);
-            return r;
-        })
-        .catch(err => {
-            setIsLoading(false);
-            setErrorMessage(err.message);
-            setTimeout(() => setErrorMessage(null), 3000); // todo change thru notification queue
-            return err;
-        })
-
+    const request = getRequest(setIsLoading, setErrorMessage)
     const changeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
         setTab(tabs[newValue]);
     };
+    const openObject = (objectId: string,) => {
+        setObjectId(objectId);
+        setFormShown(true);
+    }
+    const openCreateForm = () => {
+        setObjectId(null);
+        setFormShown(true)
+    }
 
     const Form = config[tab].form;
-
     return (
         <div className={`${classes.root} main`}>
             <AppBar position="fixed">
@@ -123,23 +115,26 @@ export default function App() {
             <div className="content">
                 <TabPanel value={tab} index={'books'}>
                     <CustomTable dataUrl={config.books.dataUrl} columns={config.books.columns}
-                                 request={request} key={`${updateIndicator}-books`}/>
+                                 request={request} key={`${updateIndicator}-books`}
+                                 onOpen={openObject}/>
                 </TabPanel>
                 <TabPanel value={tab} index={'authors'}>
                     <CustomTable dataUrl={config.authors.dataUrl} columns={config.authors.columns}
-                                 request={request} key={`${updateIndicator}-authors`}/>
+                                 request={request} key={`${updateIndicator}-authors`}
+                                 onOpen={openObject}/>
                 </TabPanel>
                 <TabPanel value={tab} index={'genres'}>
                     <CustomTable dataUrl={config.genres.dataUrl} columns={config.genres.columns}
-                                 request={request} key={`${updateIndicator}-genres`}/>
+                                 request={request} key={`${updateIndicator}-genres`}
+                                 onOpen={openObject}/>
                 </TabPanel>
                 <Fab size="small" color="secondary" aria-label="add" className={"add-button"}
-                     onClick={() => setFormShown(true)}
+                     onClick={openCreateForm}
                 >
                     Add
                 </Fab>
             </div>
-            <Drawer anchor={'right'} open={formShown} onClose={console.log}>
+            <Drawer anchor={'right'} open={formShown} onClose={() => setObjectId(null)}>
                 <Form
                     objectId={objectId}
                     onClose={() => setFormShown(false)}

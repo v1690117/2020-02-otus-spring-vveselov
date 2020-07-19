@@ -35,3 +35,21 @@ export function a11yProps(index: any) {
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
+
+export function getRequest(setIsLoading: (value: (((prevState: boolean) => boolean) | boolean)) => void, setErrorMessage: Function) {
+    return (input: RequestInfo, init?: RequestInit): Promise<Response> => Promise.resolve(setIsLoading(true))
+        .then(() => fetch(input, init))
+        .then(r => {
+            if (r.status >= 400) {
+                throw new Error(r.statusText);
+            }
+            setIsLoading(false);
+            return r;
+        })
+        .catch(err => {
+            setIsLoading(false);
+            setErrorMessage(err.message);
+            setTimeout(() => setErrorMessage(null), 3000); // todo change thru notification queue
+            return err;
+        });
+}

@@ -14,5 +14,6 @@
 1.  REST tests  
 1.  Frontend tests  
 1.  Editing 
+1.  Deletion 
 1.  Working with comments   
 1.  Change forms with autocomplete instead of using ids

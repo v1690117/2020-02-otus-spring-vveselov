@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {IProps} from "../interfaces/interfaces";
+import {Button} from "@material-ui/core";
 
 export interface Column {
     title: string;
@@ -18,6 +19,7 @@ interface TableProps extends IProps {
     dataUrl: string;
     columns: Column[];
     request: Function;
+    onOpen: Function;
 }
 
 interface TableState extends IProps {
@@ -51,6 +53,7 @@ export class CustomTable extends React.Component<TableProps, TableState> {
                         {this.props.columns.map((column: Column) => (
                             <TableCell>{column.title}</TableCell>
                         ))}
+                        <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -63,6 +66,15 @@ export class CustomTable extends React.Component<TableProps, TableState> {
                                     </TableCell>
                                 ))
                             }
+                            <TableCell component="th" scope="row">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => this.props.onOpen(element.id)}
+                                >
+                                    Edit
+                                </Button>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

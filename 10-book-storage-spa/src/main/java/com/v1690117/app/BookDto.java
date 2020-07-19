@@ -42,13 +42,13 @@ public class BookDto {
     }
 
     public void setAuthors(String authors) {
-        this.authors = Arrays.stream(authors.split(","))
+        this.authors = Arrays.stream(authors.trim().split(","))
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
     }
 
     public void setGenres(String genres) {
-        this.genres = Arrays.stream(genres.split(","))
+        this.genres = Arrays.stream(genres.trim().split(","))
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
     }
