@@ -1,20 +1,14 @@
 import * as React from "react";
+import {useState} from "react";
 import '../styles/index.css';
-import {Column, CustomTable} from "./CustomTable.tsx";
-import {Author, Book, Genre} from "../interfaces/interfaces";
-
-interface IProps {
-}
-
-interface IState {
-}
-
-interface Config {
-    [any: string]: {
-        dataUrl: string;
-        columns: Column[]
-    }
-}
+import {CustomTable} from "./CustomTable.tsx";
+import {Author, Book, Config, Genre} from "../interfaces/interfaces";
+import {AppBar, CircularProgress, Drawer, Fab, Tab, Tabs} from "@material-ui/core";
+import Alert from '@material-ui/lab/Alert';
+import {a11yProps, TabPanel, useStyles} from "./Helpers.tsx";
+import {BookForm} from "./BookForm.tsx";
+import {AuthorForm} from "./AuthorForm.tsx";
+import {GenreForm} from "./GenreForm.tsx";
 
 const config: Config = {
     books: {
@@ -44,7 +38,8 @@ const config: Config = {
                 title: 'Authors',
                 accessor: (e: Book) => e.authors.map((a: Author) => `${a.firstName} ${a.lastName}`).join(', ')
             }
-        ]
+        ],
+        form: BookForm
     },
     authors: {
         dataUrl: '/authors.json',
@@ -61,7 +56,8 @@ const config: Config = {
                 title: 'Last Name',
                 accessor: (e: Author) => e.lastName
             }
-        ]
+        ],
+        form: AuthorForm
     },
     genres: {
         dataUrl: '/genres.json',
@@ -74,23 +70,91 @@ const config: Config = {
                 title: 'Name',
                 accessor: (e: Genre) => e.name
             }
-        ]
+        ],
+        form: GenreForm
     }
 }
-
-class App extends React.Component<IProps, IState> {
-    constructor(props: any) {
-        super(props);
-        this.state = {}
-    }
-
-    render() {
-        return <>
-            <CustomTable dataUrl={config.genres.dataUrl} columns={config.genres.columns}></CustomTable>
-            <CustomTable dataUrl={config.authors.dataUrl} columns={config.authors.columns}></CustomTable>
-            <CustomTable dataUrl={config.books.dataUrl} columns={config.books.columns}></CustomTable>
-        </>
-    }
+const tabs: { [any: number]: string } = {
+    0: 'books',
+    1: 'authors',
+    2: 'genres'
 }
 
-export default App;
+export default function App() {
+    const classes = useStyles();
+    const [tab, setTab] = React.useState('books');
+    const [objectId, setObjectId] = React.useState();
+    const [formShown, setFormShown] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [errorMessage, setErrorMessage]: [string, Function] = useState();
+    const [updateIndicator, setUpdateIndicator] = useState(Math.random);
+
+    const request = (input: RequestInfo, init?: RequestInit): Promise<Response> => Promise.resolve(setIsLoading(true))
+        .then(() => fetch(input, init))
+        .then(r => {
+            if (r.status >= 400) {
+                throw new Error(r.statusText);
+            }
+            setIsLoading(false);
+            return r;
+        })
+        .catch(err => {
+            setIsLoading(false);
+            setErrorMessage(err.message);
+            setTimeout(() => setErrorMessage(null), 3000); // todo change thru notification queue
+            return err;
+        })
+
+    const changeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setTab(tabs[newValue]);
+    };
+
+    const Form = config[tab].form;
+
+    return (
+        <div className={`${classes.root} main`}>
+            <AppBar position="fixed">
+                <Tabs value={tab} onChange={changeTab} aria-label="simple tabs example">
+                    <Tab label="Books" {...a11yProps('books')} />
+                    <Tab label="Authors" {...a11yProps('authors')} />
+                    <Tab label="Genres" {...a11yProps('genres')} />
+                </Tabs>
+            </AppBar>
+            <div className="content">
+                <TabPanel value={tab} index={'books'}>
+                    <CustomTable dataUrl={config.books.dataUrl} columns={config.books.columns}
+                                 request={request} key={`${updateIndicator}-books`}/>
+                </TabPanel>
+                <TabPanel value={tab} index={'authors'}>
+                    <CustomTable dataUrl={config.authors.dataUrl} columns={config.authors.columns}
+                                 request={request} key={`${updateIndicator}-authors`}/>
+                </TabPanel>
+                <TabPanel value={tab} index={'genres'}>
+                    <CustomTable dataUrl={config.genres.dataUrl} columns={config.genres.columns}
+                                 request={request} key={`${updateIndicator}-genres`}/>
+                </TabPanel>
+                <Fab size="small" color="secondary" aria-label="add" className={"add-button"}
+                     onClick={() => setFormShown(true)}
+                >
+                    Add
+                </Fab>
+            </div>
+            <Drawer anchor={'right'} open={formShown} onClose={console.log}>
+                <Form
+                    objectId={objectId}
+                    onClose={() => setFormShown(false)}
+                    request={request}
+                    onDataChange={() => setUpdateIndicator(Math.random())}
+                />
+            </Drawer>
+            {
+                isLoading && <CircularProgress className={"spinner"}/>
+            }
+            {
+                errorMessage && <Alert severity="error" className={"notification"}>
+                    {errorMessage}
+                </Alert>
+            }
+        </div>
+    );
+}

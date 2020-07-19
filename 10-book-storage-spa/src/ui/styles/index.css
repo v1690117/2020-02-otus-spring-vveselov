@@ -1,3 +1,40 @@
 thead {
     background-color: lightgrey;
+    height: 32px;
+}
+
+.main {
+    margin: 0 !important;
+}
+
+.content {
+    position: absolute;
+    top: 48px;
+    width: 100%;
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.notification {
+    position: absolute;
+    right: 5rem;
+    top: 5rem;
+}
+
+.add-button {
+    position: fixed !important;
+    right: 1rem !important;
+    bottom: 1rem !important;
+}
+
+form {
+    padding: 1rem;
+}
+
+.form-input {
+    margin: 1rem;
 }

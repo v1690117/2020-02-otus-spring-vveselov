@@ -4,6 +4,7 @@ import com.v1690117.app.model.Book;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,5 +31,25 @@ public class BookDto {
                 : book.getGenres().stream().map(g -> g.getId()).collect(Collectors.toList());
         this.comments = book.getComments() == null ? Collections.emptyList()
                 : book.getComments().stream().map(c -> c.getText()).collect(Collectors.toList());
+    }
+
+    public void setAuthors(List<Long> authors) {
+        this.authors = authors;
+    }
+
+    public void setGenres(List<Long> genres) {
+        this.genres = genres;
+    }
+
+    public void setAuthors(String authors) {
+        this.authors = Arrays.stream(authors.split(","))
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+    }
+
+    public void setGenres(String genres) {
+        this.genres = Arrays.stream(genres.split(","))
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
     }
 }

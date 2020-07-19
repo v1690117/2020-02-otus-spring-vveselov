@@ -61,23 +61,17 @@ public class DefaultBookServiceTest {
         Book inserting = getFirstBook();
         given(authorRepository.findById(1L)).willReturn(Optional.of(inserting.getAuthors().get(0)));
         given(genreRepository.findById(1L)).willReturn(Optional.of(inserting.getGenres().get(0)));
-        service.insert(
-                inserting.getTitle(),
-                inserting.getAnnotation(),
-                inserting.getYear(),
-                new long[]{inserting.getAuthors().get(0).getId()},
-                new long[]{inserting.getGenres().get(0).getId()}
-        );
+        BookDto dto = new BookDto();
+        dto.setTitle(inserting.getTitle());
+        dto.setAnnotation(inserting.getAnnotation());
+        dto.setYear(inserting.getYear());
+        dto.setAuthors(Collections.singletonList(inserting.getAuthors().get(0).getId()));
+        dto.setGenres(Collections.singletonList(inserting.getGenres().get(0).getId()));
+        service.insert(dto);
         verify(dao, times(1)).save(any());
 
         assertThatThrownBy(
-                () -> service.insert(
-                        "",
-                        "",
-                        "",
-                        new long[]{},
-                        new long[]{}
-                )
+                () -> service.insert(new BookDto())
         ).hasMessageContaining("empty");
     }
 

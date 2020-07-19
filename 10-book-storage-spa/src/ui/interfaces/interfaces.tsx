@@ -1,3 +1,6 @@
+import {Column} from "../components/CustomTable";
+import * as React from "react";
+
 export interface Genre {
     id: number;
     name: string;
@@ -19,4 +22,25 @@ export interface Book {
 }
 
 export interface IProps {
+}
+
+export interface Config {
+    [any: string]: {
+        dataUrl: string;
+        columns: Column[]
+        form: Function;
+    }
+}
+
+export interface TabPanelProps {
+    children?: React.ReactNode;
+    index: any;
+    value: any;
+}
+
+export interface FormProps {
+    objectId: string;
+    onClose: Function;
+    request: Function;
+    onDataChange: Function;
 }

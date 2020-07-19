@@ -16,7 +16,8 @@ export interface Column {
 
 interface TableProps extends IProps {
     dataUrl: string;
-    columns: Column[]
+    columns: Column[];
+    request: Function;
 }
 
 interface TableState extends IProps {
@@ -35,9 +36,9 @@ export class CustomTable extends React.Component<TableProps, TableState> {
     }
 
     componentDidMount() {
-        fetch(this.props.dataUrl)
-            .then(r => r.json())
-            .then(res => this.setState({
+        this.props.request(this.props.dataUrl)
+            .then((r: any) => r.json())
+            .then((res: any) => this.setState({
                 data: res
             }))
     }

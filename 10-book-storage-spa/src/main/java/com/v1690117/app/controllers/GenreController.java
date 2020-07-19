@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -50,12 +50,8 @@ public class GenreController {
     }
 
     @PostMapping("/genres")
-    public String add(@RequestParam("name") String name) {
-        genreService.insert(
-                new Genre(
-                        name
-                )
-        );
+    public String add(@RequestBody Genre genre) {
+        genreService.insert(genre);
         return "success";
     }
 
