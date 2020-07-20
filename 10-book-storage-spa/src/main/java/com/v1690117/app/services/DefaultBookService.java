@@ -39,7 +39,7 @@ public class DefaultBookService implements BookService {
 
     @Override
     public Book insert(BookDto book) {
-        if (book.getTitle().trim().isEmpty())
+        if (book.getTitle() == null || book.getTitle().trim().isEmpty())
             throw new IllegalArgumentException("Title can not be empty!");
         List<Author> authorList = new LinkedList<>();
         List<Genre> genreList = new LinkedList<>();
