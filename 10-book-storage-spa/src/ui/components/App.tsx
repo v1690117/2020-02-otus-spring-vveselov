@@ -82,7 +82,7 @@ const tabs: { [any: number]: string } = {
 
 export default function App() {
     const classes = useStyles();
-    const [tab, setTab] = React.useState('books');
+    const [tab, setTab] = React.useState(0);
     const [objectId, setObjectId]: [string, Function] = React.useState();
     const [formShown, setFormShown] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -90,19 +90,25 @@ export default function App() {
     const [updateIndicator, setUpdateIndicator] = useState(Math.random);
 
     const request = getRequest(setIsLoading, setErrorMessage)
+    const update = () => {
+        setUpdateIndicator(Math.random())
+    }
     const changeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
-        setTab(tabs[newValue]);
+        setTab(newValue);
     };
     const openObject = (objectId: string,) => {
         setObjectId(objectId);
         setFormShown(true);
     }
+    const deleteObject = (objectId: string,) => {
+        request(`/${tabs[tab]}/${objectId}`, {method: 'DELETE'})
+            .then(() => update());
+    }
     const openCreateForm = () => {
         setObjectId(null);
         setFormShown(true)
     }
-
-    const Form = config[tab].form;
+    const Form = config[tabs[tab]].form;
     return (
         <div className={`${classes.root} main`}>
             <AppBar position="fixed">
@@ -113,20 +119,35 @@ export default function App() {
                 </Tabs>
             </AppBar>
             <div className="content">
-                <TabPanel value={tab} index={'books'}>
-                    <CustomTable dataUrl={config.books.dataUrl} columns={config.books.columns}
-                                 request={request} key={`${updateIndicator}-books`}
-                                 onOpen={openObject}/>
+                <TabPanel value={tab} index={0}>
+                    <CustomTable
+                        dataUrl={config.books.dataUrl}
+                        columns={config.books.columns}
+                        request={request}
+                        key={`${updateIndicator}-books`}
+                        onOpen={openObject}
+                        onDelete={deleteObject}
+                    />
                 </TabPanel>
-                <TabPanel value={tab} index={'authors'}>
-                    <CustomTable dataUrl={config.authors.dataUrl} columns={config.authors.columns}
-                                 request={request} key={`${updateIndicator}-authors`}
-                                 onOpen={openObject}/>
+                <TabPanel value={tab} index={1}>
+                    <CustomTable
+                        dataUrl={config.authors.dataUrl}
+                        columns={config.authors.columns}
+                        request={request}
+                        key={`${updateIndicator}-authors`}
+                        onOpen={openObject}
+                        onDelete={deleteObject}
+                    />
                 </TabPanel>
-                <TabPanel value={tab} index={'genres'}>
-                    <CustomTable dataUrl={config.genres.dataUrl} columns={config.genres.columns}
-                                 request={request} key={`${updateIndicator}-genres`}
-                                 onOpen={openObject}/>
+                <TabPanel value={tab} index={2}>
+                    <CustomTable
+                        dataUrl={config.genres.dataUrl}
+                        columns={config.genres.columns}
+                        request={request}
+                        key={`${updateIndicator}-genres`}
+                        onOpen={openObject}
+                        onDelete={deleteObject}
+                    />
                 </TabPanel>
                 <Fab size="small" color="secondary" aria-label="add" className={"add-button"}
                      onClick={openCreateForm}
@@ -139,7 +160,7 @@ export default function App() {
                     objectId={objectId}
                     onClose={() => setFormShown(false)}
                     request={request}
-                    onDataChange={() => setUpdateIndicator(Math.random())}
+                    onDataChange={() => update()}
                 />
             </Drawer>
             {

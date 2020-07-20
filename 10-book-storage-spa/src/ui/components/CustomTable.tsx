@@ -20,6 +20,7 @@ interface TableProps extends IProps {
     columns: Column[];
     request: Function;
     onOpen: Function;
+    onDelete: Function;
 }
 
 interface TableState extends IProps {
@@ -51,7 +52,7 @@ export class CustomTable extends React.Component<TableProps, TableState> {
                 <TableHead>
                     <TableRow>
                         {this.props.columns.map((column: Column) => (
-                            <TableCell>{column.title}</TableCell>
+                            <TableCell key={Math.random()}>{column.title}</TableCell>
                         ))}
                         <TableCell></TableCell>
                     </TableRow>
@@ -61,7 +62,7 @@ export class CustomTable extends React.Component<TableProps, TableState> {
                         <TableRow key={element.id}>
                             {
                                 this.props.columns.map((column: Column) => (
-                                    <TableCell component="th" scope="row">
+                                    <TableCell component="th" scope="row" key={`${element.id}${column.title}`}>
                                         {column.accessor(element)}
                                     </TableCell>
                                 ))
@@ -71,8 +72,17 @@ export class CustomTable extends React.Component<TableProps, TableState> {
                                     variant="contained"
                                     color="primary"
                                     onClick={() => this.props.onOpen(element.id)}
+                                    size="small"
                                 >
                                     Edit
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => this.props.onDelete(element.id)}
+                                    size="small"
+                                >
+                                    Delete
                                 </Button>
                             </TableCell>
                         </TableRow>

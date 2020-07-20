@@ -80,6 +80,7 @@ export const GenreForm = (props: FormProps) => {
                     color="secondary"
                     onClick={() => props.onClose()}
                     disabled={isLoading}
+                    size="small"
                 >
                     Close
                 </Button>
@@ -90,6 +91,7 @@ export const GenreForm = (props: FormProps) => {
                             color="primary"
                             onClick={() => update()}
                             disabled={isLoading}
+                            size="small"
                         >
                             Update
                         </Button> :
@@ -98,6 +100,7 @@ export const GenreForm = (props: FormProps) => {
                             color="primary"
                             onClick={() => create()}
                             disabled={isLoading}
+                            size="small"
                         >
                             Create
                         </Button>
