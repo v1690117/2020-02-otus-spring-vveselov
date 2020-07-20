@@ -12,7 +12,7 @@ import {GenreForm} from "./GenreForm.tsx";
 
 const config: Config = {
     books: {
-        dataUrl: '/books.json',
+        dataUrl: '/books',
         columns: [
             {
                 title: 'ID',
@@ -42,7 +42,7 @@ const config: Config = {
         form: BookForm
     },
     authors: {
-        dataUrl: '/authors.json',
+        dataUrl: '/authors',
         columns: [
             {
                 title: 'ID',
@@ -60,7 +60,7 @@ const config: Config = {
         form: AuthorForm
     },
     genres: {
-        dataUrl: '/genres.json',
+        dataUrl: '/genres',
         columns: [
             {
                 title: 'ID',

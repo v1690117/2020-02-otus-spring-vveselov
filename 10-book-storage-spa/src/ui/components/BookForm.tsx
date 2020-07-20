@@ -16,7 +16,7 @@ export const BookForm = (props: FormProps) => {
 
     useEffect(() => {
             if (!loaded && props.objectId) {
-                props.request(`/books/${props.objectId}.json`)
+                props.request(`/books/${props.objectId}`)
                     .then((r: any) => r.json())
                     .then((book: Book) => {
                         setLoaded(true);

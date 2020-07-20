@@ -12,7 +12,7 @@ export const GenreForm = (props: FormProps) => {
 
     useEffect(() => {
             if (!loaded && props.objectId) {
-                props.request(`/genres/${props.objectId}.json`)
+                props.request(`/genres/${props.objectId}`)
                     .then((r: any) => r.json())
                     .then((genre: Genre) => {
                         setLoaded(true);

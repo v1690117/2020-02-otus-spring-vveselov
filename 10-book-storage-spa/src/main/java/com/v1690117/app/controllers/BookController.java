@@ -19,12 +19,12 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
 
-    @GetMapping(value = "/books.json")
+    @GetMapping(value = "/books")
     public List<Book> getAll() {
         return bookService.findAll();
     }
 
-    @GetMapping("/books/{id}.json")
+    @GetMapping("/books/{id}")
     public Book getById(@PathVariable("id") long id) {
         return bookService.findById(id);
     }

@@ -13,7 +13,7 @@ export const AuthorForm = (props: FormProps) => {
 
     useEffect(() => {
             if (!loaded && props.objectId) {
-                props.request(`/authors/${props.objectId}.json`)
+                props.request(`/authors/${props.objectId}`)
                     .then((r: any) => r.json())
                     .then((author: Author) => {
                         setLoaded(true);

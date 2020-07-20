@@ -18,12 +18,12 @@ import java.util.List;
 public class GenreController {
     private final GenreService genreService;
 
-    @GetMapping(value = "/genres.json")
+    @GetMapping(value = "/genres")
     public List<Genre> getAll() {
         return genreService.findAll();
     }
 
-    @GetMapping("/genres/{id}.json")
+    @GetMapping("/genres/{id}")
     public Genre getById(@PathVariable("id") long id) {
         return genreService.findById(id);
     }

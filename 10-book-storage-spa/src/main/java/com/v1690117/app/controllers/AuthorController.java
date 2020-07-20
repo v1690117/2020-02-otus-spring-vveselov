@@ -18,12 +18,12 @@ import java.util.List;
 public class AuthorController {
     private final AuthorService authorService;
 
-    @GetMapping(value = "/authors.json")
+    @GetMapping(value = "/authors")
     public List<Author> getAll() {
         return authorService.findAll();
     }
 
-    @GetMapping("/authors/{id}.json")
+    @GetMapping("/authors/{id}")
     public Author getById(@PathVariable("id") long id) {
         return authorService.findById(id);
     }
