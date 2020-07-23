@@ -30,11 +30,11 @@ public class DefaultGenreService implements GenreService {
     }
 
     @Override
-    public void update(Genre given) {
+    public Genre update(Genre given) {
         Genre existed = genreRepository.findById(given.getId()).get();
         String name = (given.getName() == null || given.getName().trim().isEmpty()) ?
                 existed.getName() : given.getName();
-        genreRepository.save(
+        return genreRepository.save(
                 new Genre(
                         given.getId(),
                         name

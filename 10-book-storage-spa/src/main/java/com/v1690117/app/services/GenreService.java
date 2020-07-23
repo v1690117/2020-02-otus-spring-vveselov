@@ -12,7 +12,7 @@ public interface GenreService {
 
     Genre insert(Genre genre);
 
-    void update(Genre genre);
+    Genre update(Genre genre);
 
     void delete(long id);
 }

@@ -38,22 +38,26 @@ public class DefaultBookService implements BookService {
     }
 
     @Override
-    public Book insert(String title, String annotation, String year, long[] authors, long[] genres) {
-        if (title.trim().isEmpty())
+    public Book insert(BookDto book) {
+        if (book.getTitle() == null || book.getTitle().trim().isEmpty())
             throw new IllegalArgumentException("Title can not be empty!");
         List<Author> authorList = new LinkedList<>();
         List<Genre> genreList = new LinkedList<>();
-        for (long authorId : authors) {
-            authorList.add(authorRepository.findById(authorId).get());
+        if (book.getAuthors() != null) {
+            for (long authorId : book.getAuthors()) {
+                authorList.add(authorRepository.findById(authorId).get());
+            }
         }
-        for (long genreId : genres) {
-            genreList.add(genreRepository.findById(genreId).get());
+        if (book.getGenres() != null) {
+            for (long genreId : book.getGenres()) {
+                genreList.add(genreRepository.findById(genreId).get());
+            }
         }
         return bookRepository.save(
                 new Book(
-                        title,
-                        annotation,
-                        year,
+                        book.getTitle(),
+                        book.getAnnotation(),
+                        book.getYear(),
                         authorList,
                         genreList
                 )

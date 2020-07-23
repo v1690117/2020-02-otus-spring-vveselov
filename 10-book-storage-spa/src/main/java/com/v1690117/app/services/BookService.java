@@ -11,7 +11,7 @@ public interface BookService {
 
     Book findById(long id);
 
-    Book insert(String title, String annotation, String year, long[] authors, long[] genres);
+    Book insert(BookDto book);
 
     Book update(BookDto bookDto);
 
